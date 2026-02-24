@@ -473,6 +473,28 @@
         color: var(--accent);
     }
 
+    /* Shimmer gradient text */
+    .shimmer-text {
+        background: linear-gradient(
+            90deg,
+            var(--accent) 0%,
+            var(--accent) 35%,
+            oklch(95% 0.05 200) 50%,
+            var(--accent) 65%,
+            var(--accent) 100%
+        );
+        background-size: 200% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: shimmer 10s linear infinite;
+    }
+
+    @keyframes shimmer {
+        0% { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+    }
+
     /* Page hero (shorter) */
     .page-hero {
         min-height: 50vh;
