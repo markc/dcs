@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DCS - A modular CSS/JS design system with OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components.">
+    <title>DCS - Design Color System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="site.css">
+    <script src="https://unpkg.com/lucide@0.562.0/dist/umd/lucide.min.js"></script>
+    <script>(function(){var s=JSON.parse(localStorage.getItem('base-state')||'{}'),t=s.theme,c=s.scheme,h=document.documentElement;h.className='preload '+(t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))+(c&&c!=='default'?' scheme-'+c:'');})()</script>
+</head>
+<body>
+<div class="particles" id="particles"></div>
+
+<nav class="topnav">
+    <button class="menu-toggle" data-sidebar="left"><i data-lucide="menu"></i></button>
+    <h1><a class="brand" href="./">Design Color <span>System</span></a></h1>
+    <button class="menu-toggle" data-sidebar="right"><i data-lucide="menu"></i></button>
+</nav>
+
+<aside class="sidebar sidebar-left">
+    <div class="sidebar-header">
+        <span><i data-lucide="compass"></i> Navigate</span>
+        <button class="pin-toggle" data-sidebar="left" title="Pin sidebar"><i data-lucide="pin"></i></button>
+    </div>
+    <nav>
+        <a href="./" class="active" data-icon="home"><i data-lucide="home"></i> Home</a>
+        <a href="https://github.com/markc/dcs" data-icon="github"><i data-lucide="github"></i> GitHub</a>
+        <div class="sidebar-divider"></div>
+        <a href="#features" data-icon="zap"><i data-lucide="zap"></i> Features</a>
+        <a href="#architecture" data-icon="layers"><i data-lucide="layers"></i> Architecture</a>
+        <a href="#themes" data-icon="palette"><i data-lucide="palette"></i> Color Schemes</a>
+        <a href="#components" data-icon="box"><i data-lucide="box"></i> Components</a>
+        <a href="#usage" data-icon="code"><i data-lucide="code"></i> Usage</a>
+    </nav>
+</aside>
+
+<aside class="sidebar sidebar-right">
+    <div class="sidebar-header">
+        <span><i data-lucide="palette"></i> Theme</span>
+        <button class="pin-toggle" data-sidebar="right" title="Pin sidebar"><i data-lucide="pin"></i></button>
+    </div>
+    <nav>
+        <a href="#" data-scheme="default" data-icon="waves"><i data-lucide="waves"></i> Ocean</a>
+        <a href="#" data-scheme="crimson" data-icon="flame"><i data-lucide="flame"></i> Crimson</a>
+        <a href="#" data-scheme="stone" data-icon="circle"><i data-lucide="circle"></i> Stone</a>
+        <a href="#" data-scheme="forest" data-icon="trees"><i data-lucide="trees"></i> Forest</a>
+        <a href="#" data-scheme="sunset" data-icon="sunset"><i data-lucide="sunset"></i> Sunset</a>
+        <div class="sidebar-divider"></div>
+        <a href="#" onclick="Base.toggleTheme();return false" data-icon="moon"><i data-lucide="moon"></i> Toggle Theme</a>
+    </nav>
+</aside>
+
+<main id="content">
+    <section class="hero hero-bg">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i data-lucide="palette" style="width:16px;height:16px"></i>
+                <span>Zero Dependencies</span>
+            </div>
+            <h1>
+                <span class="gradient-text">Design Color</span><br>
+                System
+            </h1>
+            <p>A modular CSS/JS design system with OKLCH color schemes, dark/light modes, and mobile-first responsive layout. No build step required.</p>
+            <div class="cta-group">
+                <a href="https://github.com/markc/dcs" class="cta-btn primary"><i data-lucide="github" class="lucide-icon"></i> View on GitHub</a>
+                <a href="#features" class="cta-btn secondary">Explore Features</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="content-section">
+        <div class="section-header">
+            <span class="section-tag">Core Features</span>
+            <h2 class="section-title">Everything You Need</h2>
+            <p class="section-subtitle">A complete design system in four files</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="palette" class="lucide-icon"></i></span>
+                <h3>OKLCH Colors</h3>
+                <ul>
+                    <li>Perceptually uniform</li>
+                    <li>5 color schemes</li>
+                    <li>Dark + light modes</li>
+                    <li>Consistent lightness</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="smartphone" class="lucide-icon"></i></span>
+                <h3>Mobile-First</h3>
+                <ul>
+                    <li>Responsive breakpoints</li>
+                    <li>Off-canvas sidebars</li>
+                    <li>Desktop pinning</li>
+                    <li>Touch-friendly</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="layers" class="lucide-icon"></i></span>
+                <h3>CSS Cascade Layers</h3>
+                <ul>
+                    <li>reset, tokens, base</li>
+                    <li>components, utilities</li>
+                    <li>animations layer</li>
+                    <li>No specificity wars</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="zap" class="lucide-icon"></i></span>
+                <h3>Zero Build Step</h3>
+                <ul>
+                    <li>Vanilla CSS + JS</li>
+                    <li>No npm required</li>
+                    <li>CDN-ready</li>
+                    <li>Copy and go</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture" class="bg-image-section">
+        <div class="section-header">
+            <span class="section-tag">Modular Architecture</span>
+            <h2 class="section-title">Base + Site Separation</h2>
+            <p class="section-subtitle">Generic framework stays untouched. Customize with site.css only.</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="services-grid services-grid-2col">
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="box" class="lucide-icon"></i></span>
+                <h3>base.css (705 lines)</h3>
+                <ul>
+                    <li>Color-agnostic framework</li>
+                    <li>Layout: topnav, sidebars, container</li>
+                    <li>Components: cards, buttons, forms</li>
+                    <li>Prose styling for markdown</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="cpu" class="lucide-icon"></i></span>
+                <h3>base.js (245 lines)</h3>
+                <ul>
+                    <li>Theme toggle (dark/light)</li>
+                    <li>Color scheme switching</li>
+                    <li>Sidebar open/close/pin</li>
+                    <li>Toast notifications</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="paintbrush" class="lucide-icon"></i></span>
+                <h3>site.css (theme)</h3>
+                <ul>
+                    <li>OKLCH color definitions</li>
+                    <li>Marketing components</li>
+                    <li>Hero, cards, pricing</li>
+                    <li>Particles + animations</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="sparkles" class="lucide-icon"></i></span>
+                <h3>site.js (optional)</h3>
+                <ul>
+                    <li>Particle effects</li>
+                    <li>Scroll reveal</li>
+                    <li>Footer year</li>
+                    <li>Your custom code</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Color Schemes -->
+    <section id="themes" class="bg-image-section">
+        <div class="section-header">
+            <span class="section-tag">Try Them Now</span>
+            <h2 class="section-title">5 Color Schemes</h2>
+            <p class="section-subtitle">Open the right sidebar to switch schemes live</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="services-grid services-grid-3col" style="max-width: 960px;">
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="waves" class="lucide-icon"></i></span>
+                <h3>Ocean (H=220)</h3>
+                <ul>
+                    <li>Cyan-blue, professional</li>
+                    <li>Default scheme</li>
+                    <li>Medium chroma</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="flame" class="lucide-icon"></i></span>
+                <h3>Crimson (H=25)</h3>
+                <ul>
+                    <li>Bold red, high energy</li>
+                    <li>High chroma</li>
+                    <li>Strong contrast</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="circle" class="lucide-icon"></i></span>
+                <h3>Stone (H=60)</h3>
+                <ul>
+                    <li>Warm neutral, minimal</li>
+                    <li>Low chroma</li>
+                    <li>Great for docs</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="trees" class="lucide-icon"></i></span>
+                <h3>Forest (H=150)</h3>
+                <ul>
+                    <li>Natural green</li>
+                    <li>Balanced chroma</li>
+                    <li>Calming feel</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="sunset" class="lucide-icon"></i></span>
+                <h3>Sunset (H=45)</h3>
+                <ul>
+                    <li>Warm orange-amber</li>
+                    <li>High vibrancy</li>
+                    <li>Inviting tone</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Components -->
+    <section id="components" class="bg-image-section">
+        <div class="section-header">
+            <span class="section-tag">Built-In Components</span>
+            <h2 class="section-title">Ready to Use</h2>
+            <p class="section-subtitle">Cards, buttons, forms, tables, prose, and more</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="services-grid">
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="layout-template" class="lucide-icon"></i></span>
+                <h3>App Shell</h3>
+                <ul>
+                    <li>Fixed topnav</li>
+                    <li>Dual sidebars (L/R)</li>
+                    <li>Pinnable on desktop</li>
+                    <li>Collapsible groups</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="square" class="lucide-icon"></i></span>
+                <h3>Cards</h3>
+                <ul>
+                    <li>Mobile: edge-to-edge</li>
+                    <li>Desktop: rounded + shadow</li>
+                    <li>Hover lift animation</li>
+                    <li>Size variants (sm/md/lg)</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="mouse-pointer-click" class="lucide-icon"></i></span>
+                <h3>Buttons</h3>
+                <ul>
+                    <li>Primary, outline, ghost</li>
+                    <li>Success, danger, warning</li>
+                    <li>Size variants</li>
+                    <li>Focus-visible rings</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="file-text" class="lucide-icon"></i></span>
+                <h3>Prose</h3>
+                <ul>
+                    <li>Markdown rendering</li>
+                    <li>Code blocks + tables</li>
+                    <li>Blockquotes + lists</li>
+                    <li>Badge support</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Usage -->
+    <section id="usage" class="bg-image-section">
+        <div class="section-header">
+            <span class="section-tag">Get Started</span>
+            <h2 class="section-title">Three Use Cases</h2>
+            <p class="section-subtitle">Marketing sites, documentation, and Laravel+React apps</p>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="services-grid services-grid-3col">
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="globe" class="lucide-icon"></i></span>
+                <h3>Brochure Site</h3>
+                <ul>
+                    <li>Copy all 4 files</li>
+                    <li>Edit site.css colors</li>
+                    <li>Write your HTML</li>
+                    <li>Deploy anywhere</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="book-open" class="lucide-icon"></i></span>
+                <h3>Documentation</h3>
+                <ul>
+                    <li>Use base.css + base.js</li>
+                    <li>Minimal site.css (colors)</li>
+                    <li>Add md.js for markdown</li>
+                    <li>Sidebar navigation</li>
+                </ul>
+            </div>
+            <div class="service-card reveal">
+                <span class="service-icon"><i data-lucide="code" class="lucide-icon"></i></span>
+                <h3>Laravel + React</h3>
+                <ul>
+                    <li>Import OKLCH tokens</li>
+                    <li>Adapt to Tailwind v4</li>
+                    <li>React theme context</li>
+                    <li>Same color system</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-image-section">
+        <div class="section-header">
+            <span class="section-tag">Open Source</span>
+            <h2 class="section-title">MIT Licensed</h2>
+            <p class="section-subtitle">Use it in any project, commercial or personal</p>
+            <div class="flex-center mt-8">
+                <a href="https://github.com/markc/dcs" class="cta-btn primary"><i data-lucide="github" class="lucide-icon"></i> Clone the Repo</a>
+                <a href="https://github.com/markc/dcs#quick-start" class="cta-btn secondary">Quick Start</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer-main">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="footer-brand">Design Color <span>System</span></div>
+                <p>Modular CSS/JS design system</p>
+                <p>OKLCH colors, zero dependencies</p>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="package" class="lucide-icon"></i> Files</h4>
+                <div class="contact-line">
+                    <i data-lucide="file-code" class="lucide-icon"></i>
+                    <span>base.css (705 lines)</span>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="file-code" class="lucide-icon"></i>
+                    <span>base.js (245 lines)</span>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="file-code" class="lucide-icon"></i>
+                    <span>site.css (theme)</span>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="file-code" class="lucide-icon"></i>
+                    <span>site.js (optional)</span>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="link" class="lucide-icon"></i> Links</h4>
+                <div class="contact-line">
+                    <i data-lucide="github" class="lucide-icon"></i>
+                    <a href="https://github.com/markc/dcs" target="_blank">GitHub Repo</a>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="book-open" class="lucide-icon"></i>
+                    <a href="https://github.com/markc/dcs#readme" target="_blank">Documentation</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4><i data-lucide="globe" class="lucide-icon"></i> Built With DCS</h4>
+                <div class="contact-line">
+                    <i data-lucide="mail" class="lucide-icon"></i>
+                    <a href="https://motd.com" target="_blank">motd.com</a>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="server" class="lucide-icon"></i>
+                    <a href="https://renta.net" target="_blank">renta.net</a>
+                </div>
+                <div class="contact-line">
+                    <i data-lucide="book-open" class="lucide-icon"></i>
+                    <a href="https://github.com/markc/spe" target="_blank">SPE Docs</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            &copy; <span id="year"></span> Mark Constable. MIT License.
+        </div>
+    </footer>
+</main>
+
+<div class="overlay"></div>
+<script src="base.js"></script>
+<script src="site.js"></script>
+</body>
+</html>

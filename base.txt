@@ -1,0 +1,247 @@
+# DCS Base Site Structure Specification
+
+This document describes the generic HTML/CSS/JS structure for building sites with DCS.
+Use this with a site.txt (customizations) and ai.txt (content) to generate a complete site.
+
+## File Structure
+
+```
+project/
+├── index.html          # Homepage
+├── base.css            # Generic framework styles (from DCS, never modify)
+├── site.css            # Site-specific theme/colors
+├── base.js             # Generic framework JavaScript (from DCS, never modify)
+├── site.js             # Site-specific JavaScript (optional)
+├── favicon.ico         # Site favicon
+├── [background].webp   # Hero/section background image
+├── ai.txt              # Content for AI agents
+├── [subpage]/
+│   └── index.html      # Subpage
+└── ...
+```
+
+## HTML Document Structure
+
+### Head Section
+
+Every page includes:
+1. UTF-8 charset and viewport meta
+2. Description meta tag (page-specific)
+3. Title tag (page-specific)
+4. Google Fonts preconnect and stylesheet
+5. base.css stylesheet link
+6. site.css stylesheet link
+7. Lucide icons CDN script
+8. Inline theme initialization script (prevents FOUC)
+
+### Theme Init Script (in head, before stylesheets)
+
+```javascript
+(function(){
+    var s = JSON.parse(localStorage.getItem('base-state') || '{}'),
+        t = s.theme, c = s.scheme,
+        h = document.documentElement;
+    h.className = 'preload ' +
+        (t || (matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light')) +
+        (c && c !== 'default' ? ' scheme-' + c : '');
+})()
+```
+
+### Body Structure
+
+```
+body
+├── div.particles#particles       # Floating particle effect container
+├── nav.topnav                    # Fixed navigation bar
+│   ├── button.menu-toggle        # Left sidebar toggle
+│   ├── h1 > a.brand              # Logo with accent span
+│   └── button.menu-toggle        # Right sidebar toggle
+├── aside.sidebar.sidebar-left    # Navigation sidebar
+│   ├── div.sidebar-header        # Header with pin toggle
+│   └── nav                       # Navigation links
+├── aside.sidebar.sidebar-right   # Theme/settings sidebar
+│   ├── div.sidebar-header        # Header with pin toggle
+│   └── nav                       # Color scheme links + theme toggle
+├── main#content
+│   ├── section.hero.hero-bg      # Homepage hero (100vh)
+│   ├── section.content-section   # Solid bg with cards
+│   ├── section.bg-image-section  # Banner/divider with overlay
+│   ├── ...                       # Alternating sections
+│   └── footer.footer-main        # Site footer
+├── div.overlay                   # Mobile sidebar overlay
+├── script (base.js)              # Generic JavaScript
+└── script (site.js)              # Site-specific JavaScript (optional)
+```
+
+## Section Types
+
+### 1. Hero Section (Homepage)
+
+Full viewport height with background image overlay.
+
+```html
+<section class="hero hero-bg">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i data-lucide="icon-name" style="width:16px;height:16px"></i>
+            <span>[tagline]</span>
+        </div>
+        <h1>
+            <span class="gradient-text">[headline part 1]</span><br>
+            [headline part 2]
+        </h1>
+        <p>[description]</p>
+        <div class="cta-group">
+            <a href="[url]" class="cta-btn primary"><i data-lucide="[icon]" class="lucide-icon"></i> [label]</a>
+            <a href="[url]" class="cta-btn secondary">[label] &rarr;</a>
+        </div>
+    </div>
+</section>
+```
+
+### 2. Page Hero (Subpages)
+
+Shorter hero for subpages (50vh).
+
+```html
+<section class="hero hero-bg page-hero">
+    <div class="hero-content">
+        <div class="section-header">
+            <span class="section-tag">[tag]</span>
+            <h1 class="section-title">[page title]</h1>
+            <p class="section-subtitle">[subtitle]</p>
+        </div>
+    </div>
+</section>
+```
+
+### 3. Content Section (with cards)
+
+Solid background section with card grid.
+
+```html
+<section class="content-section">
+    <div class="section-header">
+        <span class="section-tag">[tag]</span>
+        <h2 class="section-title">[title]</h2>
+        <p class="section-subtitle">[subtitle]</p>
+    </div>
+    <div class="services-grid">
+        <div class="service-card reveal">
+            <span class="service-icon"><i data-lucide="[icon]" class="lucide-icon"></i></span>
+            <h3>[card title]</h3>
+            <ul>
+                <li>[feature 1]</li>
+                <li>[feature 2]</li>
+                <li>[feature 3]</li>
+                <li>[feature 4]</li>
+            </ul>
+        </div>
+        <!-- repeat for each card -->
+    </div>
+</section>
+```
+
+### 4. Background Image Section (Banner/Divider)
+
+```html
+<section class="bg-image-section">
+    <div class="section-header">
+        <span class="section-tag">[tag]</span>
+        <h2 class="section-title">[title]</h2>
+        <p class="section-subtitle">[subtitle]</p>
+    </div>
+</section>
+```
+
+### 5. CTA Section
+
+```html
+<section class="bg-image-section">
+    <div class="section-header">
+        <span class="section-tag">[tag]</span>
+        <h2 class="section-title">[title]</h2>
+        <p class="section-subtitle">[subtitle]</p>
+        <div class="flex-center mt-8">
+            <a href="[url]" class="cta-btn primary"><i data-lucide="[icon]" class="lucide-icon"></i> [label]</a>
+            <a href="[url]" class="cta-btn secondary"><i data-lucide="[icon]" class="lucide-icon"></i> [label]</a>
+        </div>
+    </div>
+</section>
+```
+
+## Footer Structure
+
+```html
+<footer class="footer-main">
+    <div class="footer-grid">
+        <div class="footer-col">
+            <div class="footer-brand">[Brand]<span>[ACCENT]</span></div>
+            <p>[tagline]</p>
+        </div>
+        <div class="footer-col">
+            <h4><i data-lucide="phone" class="lucide-icon"></i> Contact</h4>
+            <div class="contact-line">
+                <i data-lucide="mail" class="lucide-icon"></i>
+                <a href="mailto:[email]">[email]</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4><i data-lucide="link" class="lucide-icon"></i> Quick Links</h4>
+            <div class="contact-line">
+                <i data-lucide="[icon]" class="lucide-icon"></i>
+                <a href="[url]">[label]</a>
+            </div>
+        </div>
+        <div class="footer-col">
+            <h4><i data-lucide="globe" class="lucide-icon"></i> Resources</h4>
+            <div class="contact-line">
+                <i data-lucide="[icon]" class="lucide-icon"></i>
+                <a href="[url]" target="_blank">[label]</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        &copy; <span id="year"></span> [Company]. [text]
+    </div>
+</footer>
+```
+
+## Grid Variants
+
+- `.services-grid` — 1 col → 2 col (600px) → 4 col (1200px)
+- `.services-grid-2col` — 1 col → 2 col (600px)
+- `.services-grid-3col` — 1 col → 2 col (600px) → 3 col (900px)
+
+## Utility Classes
+
+- `.flex-center` — centered flex container
+- `.mt-8`, `.mb-8`, `.mt-12`, `.mb-12` — marketing spacing
+- `.text-center`, `.text-secondary`, `.text-accent`
+- `.container-md` — max-width 800px
+- `.reveal` — scroll reveal animation (add to cards)
+
+## Icons
+
+Use Lucide icons via data-lucide attribute:
+```html
+<i data-lucide="icon-name" class="lucide-icon"></i>
+```
+
+## Responsive Behavior
+
+- Mobile (<600px): Single column, edge-to-edge, hamburger menus
+- Tablet (600-1199px): 2-column grids, rounded cards
+- Desktop (1200px+): 4-column grids, pinnable sidebars
+
+## CSS Variable Contract
+
+site.css must define:
+```
+--bg-primary, --bg-secondary, --bg-tertiary
+--fg-primary, --fg-secondary, --fg-muted
+--accent, --accent-hover, --accent-fg, --accent-subtle, --accent-glow
+--border, --border-muted
+--success, --danger, --warning
+--glass, --glass-border, --nav-scrolled-bg
+```
