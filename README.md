@@ -1,6 +1,8 @@
-# DCS - Design Color System
+# DCS - Dual Carousel Sidebar
 
-A modular CSS/JS design system with OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+A modular CSS/JS design system with dual sidebars, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+
+**Live demo:** [dcs.spa](https://dcs.spa)
 
 ## Quick Start
 
@@ -15,7 +17,7 @@ php -S localhost:8000 -t docs
 npx serve docs
 ```
 
-Open `http://localhost:8000` to see the self-documenting showcase.
+Open `http://localhost:8000` to see the self-documenting showcase (the same page deployed to [dcs.spa](https://dcs.spa)).
 
 ## Files
 
@@ -133,9 +135,14 @@ Your `site.css` must define these variables for `base.css` to work:
 
 ## Built With DCS
 
+- [dcs.spa](https://dcs.spa) — Self-documenting showcase
 - [motd.com](https://motd.com) — AI via email
 - [renta.net](https://renta.net) — Managed Linux hosting
 - [SPE](https://github.com/markc/spe) — PHP 8.5 tutorial documentation
+
+## Why "Dual Carousel Sidebar"?
+
+The distinctive UI signature of DCS is the dual left/right sidebar pattern: left for navigation, right for theme/settings. On desktop they can be pinned; on mobile they slide in as off-canvas panels. The system includes much more (OKLCH colors, responsive layout, marketing components, glassmorphism), but the dual sidebar app shell is what makes a DCS site instantly recognizable.
 
 ## License
 

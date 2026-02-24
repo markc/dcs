@@ -4,32 +4,38 @@ Project guidance for Claude Code when working with this repository.
 
 ## Project Overview
 
-**DCS (Design Color System)** is a modular CSS/JS design system extracted from production sites. It provides a mobile-first app shell, OKLCH color schemes, dark/light modes, and marketing components with zero build step.
+**DCS (Dual Carousel Sidebar)** is the canonical reference implementation of Mark's preferred web interface pattern. It is a modular CSS/JS design system featuring dual sidebars, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+
+**This repo is the single source of truth.** Every project that uses DCS (plain PHP, static HTML, Laravel+React) should reference `~/.gh/dcs` as the authority. When told "use the DCS interface", read these files and reproduce the pattern.
+
+**Showcase:** [dcs.spa](https://dcs.spa) (GitHub Pages, self-documenting SPA built with DCS)
 
 ## File Structure
 
 ```
 dcs/
-├── base.css                # Generic framework (705 lines) - NEVER modify per-site
-├── base.js                 # Generic JavaScript (245 lines) - NEVER modify per-site
-├── site.css                # Marketing theme with OKLCH colors + components
-├── site.js                 # Marketing JavaScript (particles, scroll reveal)
-├── md.js                   # Markdown renderer (for documentation sites)
-├── Server_Room_Dark.webp   # Default background image
+├── docs/                   # Real files (GitHub Pages source at dcs.spa)
+│   ├── index.html          # Self-documenting SPA showcase
+│   ├── base.css            # Generic framework (705 lines)
+│   ├── base.js             # Generic JavaScript (245 lines)
+│   ├── site.css            # Marketing theme with OKLCH colors + components
+│   ├── site.js             # Marketing JavaScript (particles, scroll reveal)
+│   ├── md.js               # Markdown renderer (for documentation sites)
+│   └── Server_Room_Dark.webp # Default background image
+├── base.css                 → symlink → docs/base.css
+├── base.js                  → symlink → docs/base.js
+├── site.css                 → symlink → docs/site.css
+├── site.js                  → symlink → docs/site.js
+├── md.js                    → symlink → docs/md.js
+├── Server_Room_Dark.webp    → symlink → docs/Server_Room_Dark.webp
 ├── base.txt                # Structure spec for AI site generation
 ├── themes/                 # Standalone color-only themes (no marketing)
 │   └── stone.css           # Example: documentation-focused theme
-├── docs/                   # Self-documenting showcase (GitHub Pages)
-│   ├── index.html          # DCS demo page (built with DCS)
-│   ├── base.css             → symlink → ../base.css
-│   ├── base.js              → symlink → ../base.js
-│   ├── site.css             → symlink → ../site.css
-│   ├── site.js              → symlink → ../site.js
-│   ├── md.js                → symlink → ../md.js
-│   └── Server_Room_Dark.webp → symlink → ../Server_Room_Dark.webp
 ├── CLAUDE.md               # This file
 └── README.md               # Project documentation
 ```
+
+Real files live in `docs/` (deployed to GitHub Pages). Root symlinks provide convenient access for development and for other projects to reference.
 
 ## Architecture
 
@@ -161,9 +167,20 @@ site.css MUST define these variables for base.css to work:
 
 ## Production Sites Using DCS
 
+- [dcs.spa](https://dcs.spa) — Canonical self-documenting showcase (Ocean scheme)
 - [motd.com](https://motd.com) — AI via email (Crimson scheme)
 - [renta.net](https://renta.net) — Managed Linux hosting (Crimson scheme)
 - [SPE Docs](https://github.com/markc/spe) — PHP tutorial (Stone scheme)
+
+## Using DCS in Other Projects
+
+When working in any project that uses DCS:
+1. Read `~/.gh/dcs/CLAUDE.md` (this file) for the canonical pattern
+2. Copy files from `~/.gh/dcs/docs/` (the real files, not root symlinks)
+3. Customize `site.css` for project-specific colors and branding
+4. Never modify `base.css` or `base.js` — they are framework files
+
+For Laravel + React projects, adapt the OKLCH color tokens into Tailwind v4 `@theme` blocks and use React context for theme state.
 
 ## License
 
