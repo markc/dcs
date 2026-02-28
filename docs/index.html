@@ -84,17 +84,44 @@
     <div class="panel-viewport">
         <div class="panel-track">
             <div class="panel">
-                <div class="panel-title">Theme</div>
+                <div class="panel-title">Appearance</div>
                 <div class="panel-content">
-                    <nav>
-                        <a href="#" data-scheme="default"><i data-lucide="waves"></i> Ocean</a>
-                        <a href="#" data-scheme="crimson"><i data-lucide="flame"></i> Crimson</a>
-                        <a href="#" data-scheme="stone"><i data-lucide="circle"></i> Stone</a>
-                        <a href="#" data-scheme="forest"><i data-lucide="trees"></i> Forest</a>
-                        <a href="#" data-scheme="sunset"><i data-lucide="sunset"></i> Sunset</a>
-                        <div class="sidebar-divider"></div>
-                        <a href="#" onclick="Base.toggleTheme();return false"><i data-lucide="moon"></i> Toggle Theme</a>
-                    </nav>
+                    <div class="appearance-section">
+                        <div class="toggle-group">
+                            <button class="toggle-btn" data-theme="light">Light</button>
+                            <button class="toggle-btn" data-theme="dark">Dark</button>
+                        </div>
+                        <div class="toggle-group">
+                            <button class="toggle-btn" data-carousel="slide">Slide</button>
+                            <button class="toggle-btn" data-carousel="fade">Fade</button>
+                        </div>
+                        <div class="sidebar-width-control">
+                            <label>Sidebar width: <span id="sidebar-width-value">300</span>px</label>
+                            <input type="range" class="sidebar-width-slider" min="200" max="400" value="300" step="10">
+                        </div>
+                        <div class="scheme-list">
+                            <button class="scheme-item" data-scheme="default">
+                                <span class="scheme-dot" style="background:oklch(55% 0.12 220)"></span>
+                                <span class="scheme-name">Ocean</span>
+                            </button>
+                            <button class="scheme-item" data-scheme="crimson">
+                                <span class="scheme-dot" style="background:oklch(47% 0.2 25)"></span>
+                                <span class="scheme-name">Crimson</span>
+                            </button>
+                            <button class="scheme-item" data-scheme="stone">
+                                <span class="scheme-dot" style="background:oklch(45% 0.05 60)"></span>
+                                <span class="scheme-name">Stone</span>
+                            </button>
+                            <button class="scheme-item" data-scheme="forest">
+                                <span class="scheme-dot" style="background:oklch(50% 0.12 150)"></span>
+                                <span class="scheme-name">Forest</span>
+                            </button>
+                            <button class="scheme-item" data-scheme="sunset">
+                                <span class="scheme-dot" style="background:oklch(60% 0.16 45)"></span>
+                                <span class="scheme-name">Sunset</span>
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="panel">

@@ -83,6 +83,52 @@ const Base = {
         }
     },
 
+    // Set theme explicitly (light/dark)
+    setTheme(theme) {
+        const html = document.documentElement;
+        html.classList.remove('light', 'dark');
+        html.classList.add(theme);
+        this.state({ theme });
+        this.updateIcon();
+        document.querySelectorAll('[data-theme]').forEach(el =>
+            el.classList.toggle('active', el.dataset.theme === theme)
+        );
+    },
+
+    // Carousel transition mode (slide/fade)
+    setCarouselMode(mode) {
+        this.state({ carousel: mode });
+        document.querySelectorAll('.sidebar').forEach(sb => {
+            sb.classList.toggle('fade-mode', mode === 'fade');
+            // When switching, ensure correct panel is shown
+            const track = sb.querySelector('.panel-track');
+            if (!track) return;
+            const panels = track.querySelectorAll('.panel');
+            const side = sb.classList.contains('sidebar-left') ? 'left' : 'right';
+            const idx = this.state()[side + 'Panel'] || 0;
+            if (mode === 'fade') {
+                track.style.transform = '';
+                panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+            } else {
+                panels.forEach(p => p.classList.remove('active'));
+                track.style.transform = `translateX(-${idx * 100}%)`;
+            }
+        });
+        document.querySelectorAll('[data-carousel]').forEach(el =>
+            el.classList.toggle('active', el.dataset.carousel === mode)
+        );
+    },
+
+    // Sidebar width
+    setSidebarWidth(px) {
+        document.documentElement.style.setProperty('--sidebar-width', px + 'px');
+        this.state({ sidebarWidth: px });
+        const label = document.getElementById('sidebar-width-value');
+        if (label) label.textContent = px;
+        const slider = document.querySelector('.sidebar-width-slider');
+        if (slider && parseInt(slider.value) !== px) slider.value = px;
+    },
+
     // Panel carousel: navigate to panel index
     setPanel(side, index) {
         const sb = document.querySelector(`.sidebar-${side}`);
@@ -94,7 +140,12 @@ const Base = {
         if (count === 0) return;
         // Wrap around
         index = ((index % count) + count) % count;
-        track.style.transform = `translateX(-${index * 100}%)`;
+        const isFade = sb.classList.contains('fade-mode');
+        if (isFade) {
+            panels.forEach((p, i) => p.classList.toggle('active', i === index));
+        } else {
+            track.style.transform = `translateX(-${index * 100}%)`;
+        }
         // Update dots
         sb.querySelectorAll('.carousel-dot').forEach((dot, i) => {
             dot.classList.toggle('active', i === index);
@@ -134,6 +185,24 @@ const Base = {
         const s = this.state();
         const desktop = window.innerWidth >= 1280;
 
+        // Restore sidebar width
+        if (s.sidebarWidth) this.setSidebarWidth(s.sidebarWidth);
+
+        // Restore carousel transition mode
+        const mode = s.carousel || 'slide';
+        if (mode === 'fade') {
+            document.querySelectorAll('.sidebar').forEach(sb => sb.classList.add('fade-mode'));
+        }
+        document.querySelectorAll('[data-carousel]').forEach(el =>
+            el.classList.toggle('active', el.dataset.carousel === mode)
+        );
+
+        // Restore theme toggle buttons
+        const theme = s.theme || (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        document.querySelectorAll('[data-theme]').forEach(el =>
+            el.classList.toggle('active', el.dataset.theme === theme)
+        );
+
         ['left', 'right'].forEach(side => {
             const sb = document.querySelector(`.sidebar-${side}`);
             if (!sb) return;
@@ -149,6 +218,11 @@ const Base = {
             // Restore panel carousel position
             const panelIndex = s[side + 'Panel'] || 0;
             if (panelIndex > 0) this.setPanel(side, panelIndex);
+            else if (mode === 'fade') {
+                // Ensure first panel is active in fade mode
+                const panels = sb.querySelectorAll('.panel');
+                if (panels[0]) panels[0].classList.add('active');
+            }
         });
     },
 
@@ -167,8 +241,16 @@ const Base = {
         document.addEventListener('click', e => {
             const t = e.target;
 
-            // Theme toggle
+            // Theme toggle (legacy icon button)
             if (t.closest('.theme-toggle')) { this.toggleTheme(); return; }
+
+            // Theme buttons (Light/Dark)
+            const themeBtn = t.closest('[data-theme]');
+            if (themeBtn) { this.setTheme(themeBtn.dataset.theme); return; }
+
+            // Carousel mode buttons (Slide/Fade)
+            const carouselBtn = t.closest('[data-carousel]');
+            if (carouselBtn) { this.setCarouselMode(carouselBtn.dataset.carousel); return; }
 
             // Scheme selector
             const scheme = t.closest('[data-scheme]');
@@ -262,6 +344,12 @@ const Base = {
                 this.restore();
             }
         });
+
+        // Sidebar width slider
+        const slider = document.querySelector('.sidebar-width-slider');
+        if (slider) {
+            slider.addEventListener('input', e => this.setSidebarWidth(parseInt(e.target.value)));
+        }
 
         // Scroll detection: seamless topnav/sidebar header effect
         const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 0);
