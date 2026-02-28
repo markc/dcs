@@ -104,17 +104,22 @@ const Base = {
             const panels = track.querySelectorAll('.panel');
             const side = sb.classList.contains('sidebar-left') ? 'left' : 'right';
             const idx = this.state()[side + 'Panel'] || 0;
+            // Kill all transitions during mode switch
+            track.style.transition = 'none';
+            panels.forEach(p => p.style.transition = 'none');
             if (mode === 'fade') {
-                // Prep: set active class and clear transform BEFORE enabling fade-mode
                 panels.forEach((p, i) => p.classList.toggle('active', i === idx));
                 track.style.transform = '';
                 sb.classList.add('fade-mode');
             } else {
-                // Prep: set transform and clear active BEFORE disabling fade-mode
                 track.style.transform = `translateX(-${idx * 100}%)`;
                 sb.classList.remove('fade-mode');
                 panels.forEach(p => p.classList.remove('active'));
             }
+            // Force reflow then restore transitions
+            track.offsetHeight;
+            track.style.transition = '';
+            panels.forEach(p => p.style.transition = '');
         });
         document.querySelectorAll('[data-carousel]').forEach(el =>
             el.classList.toggle('active', el.dataset.carousel === mode)
