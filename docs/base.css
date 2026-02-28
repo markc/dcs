@@ -782,8 +782,6 @@
         body.left-pinned .topnav { left: var(--sidebar-width); }
         body.right-pinned .topnav { right: var(--sidebar-width); }
         body.left-pinned .overlay, body.right-pinned .overlay { display: none; }
-        body.left-pinned .menu-toggle[data-sidebar="left"] { display: none; }
-        body.right-pinned .menu-toggle[data-sidebar="right"] { display: none; }
         .grid-3 { grid-template-columns: repeat(3, 1fr); }
     }
 }
