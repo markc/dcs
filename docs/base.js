@@ -99,19 +99,21 @@ const Base = {
     setCarouselMode(mode) {
         this.state({ carousel: mode });
         document.querySelectorAll('.sidebar').forEach(sb => {
-            sb.classList.toggle('fade-mode', mode === 'fade');
-            // When switching, ensure correct panel is shown
             const track = sb.querySelector('.panel-track');
             if (!track) return;
             const panels = track.querySelectorAll('.panel');
             const side = sb.classList.contains('sidebar-left') ? 'left' : 'right';
             const idx = this.state()[side + 'Panel'] || 0;
             if (mode === 'fade') {
-                track.style.transform = '';
+                // Prep: set active class and clear transform BEFORE enabling fade-mode
                 panels.forEach((p, i) => p.classList.toggle('active', i === idx));
+                track.style.transform = '';
+                sb.classList.add('fade-mode');
             } else {
-                panels.forEach(p => p.classList.remove('active'));
+                // Prep: set transform and clear active BEFORE disabling fade-mode
                 track.style.transform = `translateX(-${idx * 100}%)`;
+                sb.classList.remove('fade-mode');
+                panels.forEach(p => p.classList.remove('active'));
             }
         });
         document.querySelectorAll('[data-carousel]').forEach(el =>
