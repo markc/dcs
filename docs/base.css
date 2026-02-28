@@ -415,6 +415,7 @@
     .pin-toggle {
         background: none; border: none; color: var(--fg-muted); cursor: pointer;
         padding: var(--space-1); border-radius: var(--radius-sm);
+        margin-inline: var(--space-2);
         font-size: 0.75em;
         transition: color var(--transition-fast), background var(--transition-fast);
         display: none;
