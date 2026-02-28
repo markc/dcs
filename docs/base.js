@@ -44,7 +44,7 @@ const Base = {
     // Color scheme
     setScheme(scheme) {
         const html = document.documentElement;
-        ['ocean', 'forest', 'sunset'].forEach(s => html.classList.remove('scheme-' + s));
+        ['crimson', 'stone', 'ocean', 'forest', 'sunset'].forEach(s => html.classList.remove('scheme-' + s));
         if (scheme && scheme !== 'default') html.classList.add('scheme-' + scheme);
         this.state({ scheme: scheme || 'default' });
         document.querySelectorAll('[data-scheme]').forEach(el =>
@@ -81,6 +81,25 @@ const Base = {
             if (!document.querySelector('.sidebar.open')) document.body.classList.remove('sidebar-open');
             this.state({ [side + 'Open']: false, [side + 'Pinned']: false });
         }
+    },
+
+    // Panel carousel: navigate to panel index
+    setPanel(side, index) {
+        const sb = document.querySelector(`.sidebar-${side}`);
+        if (!sb) return;
+        const track = sb.querySelector('.panel-track');
+        if (!track) return;
+        const panels = track.querySelectorAll('.panel');
+        const count = panels.length;
+        if (count === 0) return;
+        // Wrap around
+        index = ((index % count) + count) % count;
+        track.style.transform = `translateX(-${index * 100}%)`;
+        // Update dots
+        sb.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+        this.state({ [side + 'Panel']: index });
     },
 
     // Sidebar: pin/unpin (desktop)
@@ -127,6 +146,9 @@ const Base = {
             // Set correct pin icon
             const icon = sb.querySelector('.pin-toggle [data-lucide], .pin-toggle svg');
             if (icon && pinned) icon.setAttribute('data-lucide', 'pin-off');
+            // Restore panel carousel position
+            const panelIndex = s[side + 'Panel'] || 0;
+            if (panelIndex > 0) this.setPanel(side, panelIndex);
         });
     },
 
@@ -159,6 +181,23 @@ const Base = {
             // Pin toggle
             const pinBtn = t.closest('.pin-toggle[data-sidebar]');
             if (pinBtn) { this.pinSidebar(pinBtn.dataset.sidebar); return; }
+
+            // Carousel chevron
+            const chevron = t.closest('.carousel-chevron[data-sidebar]');
+            if (chevron) {
+                const side = chevron.dataset.sidebar;
+                const s = this.state();
+                const cur = s[side + 'Panel'] || 0;
+                this.setPanel(side, chevron.dataset.dir === 'prev' ? cur - 1 : cur + 1);
+                return;
+            }
+
+            // Carousel dot
+            const dot = t.closest('.carousel-dot[data-sidebar]');
+            if (dot) {
+                this.setPanel(dot.dataset.sidebar, parseInt(dot.dataset.panel, 10));
+                return;
+            }
 
             // Overlay click
             if (t.closest('.overlay')) { this.closeSidebars(); return; }
@@ -223,6 +262,11 @@ const Base = {
                 this.restore();
             }
         });
+
+        // Scroll detection: seamless topnav/sidebar header effect
+        const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 0);
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
 
         // Lucide icons
         if (typeof lucide !== 'undefined') lucide.createIcons();

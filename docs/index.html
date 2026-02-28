@@ -16,43 +16,101 @@
 <body>
 <div class="particles" id="particles"></div>
 
+<button class="menu-toggle" data-sidebar="left"><i data-lucide="menu"></i></button>
+<button class="menu-toggle" data-sidebar="right"><i data-lucide="menu"></i></button>
+
 <nav class="topnav">
-    <button class="menu-toggle" data-sidebar="left"><i data-lucide="menu"></i></button>
     <h1><a class="brand" href="./">Dual Carousel <span>Sidebars</span></a></h1>
-    <button class="menu-toggle" data-sidebar="right"><i data-lucide="menu"></i></button>
 </nav>
 
 <aside class="sidebar sidebar-left">
-    <div class="sidebar-header">
-        <span><i data-lucide="compass"></i> Navigate</span>
+    <div class="carousel-header">
         <button class="pin-toggle" data-sidebar="left" title="Pin sidebar"><i data-lucide="pin"></i></button>
+        <div class="carousel-nav">
+            <button class="carousel-chevron" data-sidebar="left" data-dir="prev"><i data-lucide="chevron-left"></i></button>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" data-sidebar="left" data-panel="0"></button>
+                <button class="carousel-dot" data-sidebar="left" data-panel="1"></button>
+            </div>
+            <button class="carousel-chevron" data-sidebar="left" data-dir="next"><i data-lucide="chevron-right"></i></button>
+        </div>
     </div>
-    <nav>
-        <a href="./" class="active" data-icon="home"><i data-lucide="home"></i> Home</a>
-        <a href="https://github.com/markc/dcs" data-icon="github"><i data-lucide="github"></i> GitHub</a>
-        <div class="sidebar-divider"></div>
-        <a href="#features" data-icon="zap"><i data-lucide="zap"></i> Features</a>
-        <a href="#architecture" data-icon="layers"><i data-lucide="layers"></i> Architecture</a>
-        <a href="#themes" data-icon="palette"><i data-lucide="palette"></i> Color Schemes</a>
-        <a href="#components" data-icon="box"><i data-lucide="box"></i> Components</a>
-        <a href="#usage" data-icon="code"><i data-lucide="code"></i> Usage</a>
-    </nav>
+    <div class="panel-viewport">
+        <div class="panel-track">
+            <div class="panel">
+                <div class="panel-title">Navigation</div>
+                <div class="panel-content">
+                    <nav>
+                        <a href="./" class="active"><i data-lucide="home"></i> Home</a>
+                        <a href="https://github.com/markc/dcs"><i data-lucide="github"></i> GitHub</a>
+                        <div class="sidebar-divider"></div>
+                        <a href="#features"><i data-lucide="zap"></i> Features</a>
+                        <a href="#architecture"><i data-lucide="layers"></i> Architecture</a>
+                        <a href="#themes"><i data-lucide="palette"></i> Color Schemes</a>
+                        <a href="#components"><i data-lucide="box"></i> Components</a>
+                        <a href="#usage"><i data-lucide="code"></i> Usage</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">About</div>
+                <div class="panel-content">
+                    <nav>
+                        <a href="https://dcs.spa"><i data-lucide="globe"></i> dcs.spa</a>
+                        <a href="https://github.com/markc/dcs#readme"><i data-lucide="book-open"></i> Documentation</a>
+                        <div class="sidebar-divider"></div>
+                        <a href="https://motd.com"><i data-lucide="mail"></i> motd.com</a>
+                        <a href="https://renta.net"><i data-lucide="server"></i> renta.net</a>
+                        <a href="https://github.com/markc/spe"><i data-lucide="graduation-cap"></i> SPE Docs</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 </aside>
 
 <aside class="sidebar sidebar-right">
-    <div class="sidebar-header">
-        <span><i data-lucide="palette"></i> Theme</span>
+    <div class="carousel-header">
+        <div class="carousel-nav">
+            <button class="carousel-chevron" data-sidebar="right" data-dir="prev"><i data-lucide="chevron-left"></i></button>
+            <div class="carousel-dots">
+                <button class="carousel-dot active" data-sidebar="right" data-panel="0"></button>
+                <button class="carousel-dot" data-sidebar="right" data-panel="1"></button>
+            </div>
+            <button class="carousel-chevron" data-sidebar="right" data-dir="next"><i data-lucide="chevron-right"></i></button>
+        </div>
         <button class="pin-toggle" data-sidebar="right" title="Pin sidebar"><i data-lucide="pin"></i></button>
     </div>
-    <nav>
-        <a href="#" data-scheme="default" data-icon="waves"><i data-lucide="waves"></i> Ocean</a>
-        <a href="#" data-scheme="crimson" data-icon="flame"><i data-lucide="flame"></i> Crimson</a>
-        <a href="#" data-scheme="stone" data-icon="circle"><i data-lucide="circle"></i> Stone</a>
-        <a href="#" data-scheme="forest" data-icon="trees"><i data-lucide="trees"></i> Forest</a>
-        <a href="#" data-scheme="sunset" data-icon="sunset"><i data-lucide="sunset"></i> Sunset</a>
-        <div class="sidebar-divider"></div>
-        <a href="#" onclick="Base.toggleTheme();return false" data-icon="moon"><i data-lucide="moon"></i> Toggle Theme</a>
-    </nav>
+    <div class="panel-viewport">
+        <div class="panel-track">
+            <div class="panel">
+                <div class="panel-title">Theme</div>
+                <div class="panel-content">
+                    <nav>
+                        <a href="#" data-scheme="default"><i data-lucide="waves"></i> Ocean</a>
+                        <a href="#" data-scheme="crimson"><i data-lucide="flame"></i> Crimson</a>
+                        <a href="#" data-scheme="stone"><i data-lucide="circle"></i> Stone</a>
+                        <a href="#" data-scheme="forest"><i data-lucide="trees"></i> Forest</a>
+                        <a href="#" data-scheme="sunset"><i data-lucide="sunset"></i> Sunset</a>
+                        <div class="sidebar-divider"></div>
+                        <a href="#" onclick="Base.toggleTheme();return false"><i data-lucide="moon"></i> Toggle Theme</a>
+                    </nav>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">Components</div>
+                <div class="panel-content">
+                    <nav>
+                        <a href="#features"><i data-lucide="zap"></i> Features</a>
+                        <a href="#architecture"><i data-lucide="layers"></i> Architecture</a>
+                        <a href="#components"><i data-lucide="box"></i> Components</a>
+                        <div class="sidebar-divider"></div>
+                        <a href="#usage"><i data-lucide="code"></i> Usage Guide</a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
 </aside>
 
 <main id="content">
