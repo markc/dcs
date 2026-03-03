@@ -618,9 +618,6 @@
     .tree-item .lucide, .tree-toggle .lucide { flex-shrink: 0; width: 1em; height: 1em; color: var(--fg-muted); }
     .tree-item.active [data-lucide], .tree-item.active .lucide { color: var(--accent); }
 
-    .tree-chevron { transition: transform var(--transition-fast); }
-    .tree-branch.collapsed .tree-chevron { transform: rotate(-90deg); }
-
     .tree-children { display: grid; grid-template-rows: 1fr; transition: grid-template-rows 0.3s ease-in-out; }
     .tree-branch.collapsed .tree-children { grid-template-rows: 0fr; }
     .tree-children > div { overflow: hidden; min-height: 0; }
