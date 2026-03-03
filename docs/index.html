@@ -569,7 +569,7 @@
     function showDoc(path) {
         if (!savedContent) savedContent = document.getElementById('content').innerHTML;
         const content = document.getElementById('content');
-        content.innerHTML = '<div style="max-width:800px;margin:0 auto;padding:var(--space-4)"><nav style="margin-block-end:var(--space-4)"><a href="#" class="doc-back" style="display:inline-flex;align-items:center;gap:var(--space-2);color:var(--accent)">&larr; Back to Showcase</a></nav><div id="doc-render"></div></div>';
+        content.innerHTML = '<div style="background:var(--bg-primary);min-height:100vh;padding:var(--space-8) var(--space-4)"><div style="max-width:800px;margin:0 auto"><nav style="margin-block-end:var(--space-4)"><a href="#" class="doc-back" style="display:inline-flex;align-items:center;gap:var(--space-2);color:var(--accent)">&larr; Back to Showcase</a></nav><div id="doc-render"></div></div></div>';
         fetch(path)
             .then(r => { if (!r.ok) throw new Error('Not found'); return r.text(); })
             .then(text => {
