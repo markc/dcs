@@ -31,6 +31,7 @@
             <div class="carousel-dots">
                 <button class="carousel-dot active" data-sidebar="left" data-panel="0"></button>
                 <button class="carousel-dot" data-sidebar="left" data-panel="1"></button>
+                <button class="carousel-dot" data-sidebar="left" data-panel="2"></button>
             </div>
             <button class="carousel-chevron" data-sidebar="left" data-dir="next"><i data-lucide="chevron-right"></i></button>
         </div>
@@ -63,6 +64,71 @@
                         <a href="https://renta.net"><i data-lucide="server"></i> renta.net</a>
                         <a href="https://github.com/markc/spe"><i data-lucide="graduation-cap"></i> SPE Docs</a>
                     </nav>
+                </div>
+            </div>
+            <div class="panel">
+                <div class="panel-title">Docs</div>
+                <div class="panel-content">
+                    <div class="tree">
+                        <div class="tree-branch">
+                            <div class="tree-toggle" style="--tree-depth:0">
+                                <i data-lucide="chevron-down" class="tree-chevron"></i>
+                                <i data-lucide="folder-open"></i>
+                                <span>docs</span>
+                            </div>
+                            <div class="tree-children"><div>
+                                <div class="tree-branch">
+                                    <div class="tree-toggle" style="--tree-depth:1">
+                                        <i data-lucide="chevron-down" class="tree-chevron"></i>
+                                        <i data-lucide="folder-open"></i>
+                                        <span>_doc</span>
+                                    </div>
+                                    <div class="tree-children"><div>
+                                        <a class="tree-item" style="--tree-depth:2" data-doc-path="_doc/architecture.md">
+                                            <i data-lucide="file-text"></i>
+                                            <span>architecture.md</span>
+                                        </a>
+                                        <a class="tree-item" style="--tree-depth:2" data-doc-path="_doc/color-system.md">
+                                            <i data-lucide="file-text"></i>
+                                            <span>color-system.md</span>
+                                        </a>
+                                        <a class="tree-item" style="--tree-depth:2" data-doc-path="_doc/components.md">
+                                            <i data-lucide="file-text"></i>
+                                            <span>components.md</span>
+                                        </a>
+                                        <a class="tree-item" style="--tree-depth:2" data-doc-path="_doc/usage-patterns.md">
+                                            <i data-lucide="file-text"></i>
+                                            <span>usage-patterns.md</span>
+                                        </a>
+                                    </div></div>
+                                </div>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="file-code"></i>
+                                    <span>base.css</span>
+                                </span>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="file-code"></i>
+                                    <span>base.js</span>
+                                </span>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="image"></i>
+                                    <span>index.html</span>
+                                </span>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="file-code"></i>
+                                    <span>md.js</span>
+                                </span>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="file-code"></i>
+                                    <span>site.css</span>
+                                </span>
+                                <span class="tree-item" style="--tree-depth:1">
+                                    <i data-lucide="file-code"></i>
+                                    <span>site.js</span>
+                                </span>
+                            </div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -497,5 +563,62 @@
 <div class="overlay"></div>
 <script src="base.js"></script>
 <script src="site.js"></script>
+<script src="md.js"></script>
+<script>
+(function() {
+    let savedContent = null;
+
+    function showDoc(path) {
+        if (!savedContent) savedContent = document.getElementById('content').innerHTML;
+        const content = document.getElementById('content');
+        content.innerHTML = '<div style="max-width:800px;margin:0 auto;padding:var(--space-4)"><nav style="margin-block-end:var(--space-4)"><a href="#" class="doc-back" style="display:inline-flex;align-items:center;gap:var(--space-2);color:var(--accent)">&larr; Back to Showcase</a></nav><div id="doc-render"></div></div>';
+        fetch(path)
+            .then(r => { if (!r.ok) throw new Error('Not found'); return r.text(); })
+            .then(text => {
+                document.getElementById('doc-render').innerHTML = '<div class="prose">' + md(text) + '</div>';
+                window.scrollTo(0, 0);
+            })
+            .catch(e => {
+                document.getElementById('doc-render').innerHTML = '<p>Error: ' + e.message + '</p>';
+            });
+        // Update tree active state
+        document.querySelectorAll('[data-doc-path]').forEach(a =>
+            a.classList.toggle('active', a.dataset.docPath === path)
+        );
+        history.replaceState({ doc: path }, '', '#' + path);
+    }
+
+    function restoreShowcase() {
+        if (!savedContent) return;
+        const content = document.getElementById('content');
+        content.innerHTML = savedContent;
+        savedContent = null;
+        history.replaceState(null, '', location.pathname);
+        // Re-init scroll reveal + Lucide icons
+        if (typeof lucide !== 'undefined') lucide.createIcons();
+        document.querySelectorAll('.reveal').forEach(el => {
+            el.classList.remove('revealed');
+            if (typeof IntersectionObserver !== 'undefined' && window._revealObserver) {
+                window._revealObserver.observe(el);
+            }
+        });
+        document.querySelectorAll('[data-doc-path]').forEach(a => a.classList.remove('active'));
+    }
+
+    // Event delegation
+    document.addEventListener('click', function(e) {
+        const docLink = e.target.closest('[data-doc-path]');
+        if (docLink) { e.preventDefault(); showDoc(docLink.dataset.docPath); return; }
+        const backLink = e.target.closest('.doc-back');
+        if (backLink) { e.preventDefault(); restoreShowcase(); return; }
+    });
+
+    // Hash-based direct linking
+    if (location.hash && location.hash.startsWith('#_doc/')) {
+        // Defer to allow Base.init() to complete first
+        setTimeout(function() { showDoc(location.hash.slice(1)); }, 0);
+    }
+})();
+</script>
 </body>
 </html>

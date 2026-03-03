@@ -231,6 +231,19 @@ const Base = {
                 if (panels[0]) panels[0].classList.add('active');
             }
         });
+
+        // Restore tree expanded state
+        const tree = document.querySelector('.tree');
+        if (tree && s.treeExpanded) {
+            const branches = tree.querySelectorAll('.tree-branch');
+            branches.forEach((b, idx) => {
+                const shouldExpand = s.treeExpanded.includes(idx);
+                b.classList.toggle('collapsed', !shouldExpand);
+                // Update folder icon
+                const icon = b.querySelector('.tree-toggle [data-lucide="folder"], .tree-toggle [data-lucide="folder-open"]');
+                if (icon) icon.setAttribute('data-lucide', shouldExpand ? 'folder-open' : 'folder');
+            });
+        }
     },
 
     // Initialize
@@ -290,6 +303,31 @@ const Base = {
 
             // Overlay click
             if (t.closest('.overlay')) { this.closeSidebars(); return; }
+
+            // Tree toggle (expand/collapse)
+            const treeToggle = t.closest('.tree-toggle');
+            if (treeToggle) {
+                const branch = treeToggle.closest('.tree-branch');
+                if (!branch) return;
+                const collapsed = branch.classList.toggle('collapsed');
+                // Swap folder icon
+                const icon = treeToggle.querySelector('[data-lucide="folder"], [data-lucide="folder-open"], svg');
+                if (icon && typeof lucide !== 'undefined') {
+                    const i = document.createElement('i');
+                    i.setAttribute('data-lucide', collapsed ? 'folder' : 'folder-open');
+                    icon.replaceWith(i);
+                    lucide.createIcons({ nodes: [i] });
+                }
+                // Persist expanded state
+                const tree = branch.closest('.tree');
+                if (tree) {
+                    const branches = tree.querySelectorAll('.tree-branch');
+                    const expanded = [];
+                    branches.forEach((b, idx) => { if (!b.classList.contains('collapsed')) expanded.push(idx); });
+                    this.state({ treeExpanded: expanded });
+                }
+                return;
+            }
 
             // Sidebar group toggle (collapsible)
             const groupTitle = t.closest('.sidebar-group-title');

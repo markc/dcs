@@ -76,7 +76,7 @@ async function loadDoc(path) {
     try {
         const res = await fetch(path);
         if (!res.ok) throw new Error(`Failed to load ${path}`);
-        content.innerHTML = md(await res.text());
+        content.innerHTML = '<div class="prose">' + md(await res.text()) + '</div>';
         document.querySelectorAll('[data-path]').forEach(a => a.classList.toggle('active', a.dataset.path === path));
         history.pushState({path}, '', `#${path}`);
     } catch (e) {
@@ -87,6 +87,7 @@ async function loadDoc(path) {
 // Auto-init doc viewer if data-path links exist
 (function() {
     const init = () => {
+        if (!document.querySelector('[data-md-auto]')) return;
         const links = document.querySelectorAll('[data-path]');
         if (!links.length) return;
         links.forEach(a => a.addEventListener('click', e => { e.preventDefault(); loadDoc(a.dataset.path); }));
