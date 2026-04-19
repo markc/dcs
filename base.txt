@@ -68,7 +68,6 @@ body
 │   ├── section.bg-image-section  # Banner/divider with overlay
 │   ├── ...                       # Alternating sections
 │   └── footer.footer-main        # Site footer
-├── div.overlay                   # Mobile sidebar overlay
 ├── script (base.js)              # Generic JavaScript
 └── script (site.js)              # Site-specific JavaScript (optional)
 ```

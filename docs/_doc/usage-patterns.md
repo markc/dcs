@@ -73,7 +73,7 @@ DCS uses relative paths so pages work at any directory depth:
 
 ### Sidebar Width
 
-Controlled by the `--sidebar-width` CSS custom property (default: `300px`). Users can adjust it via the Appearance panel slider, and the value persists in localStorage.
+Left and right sidebars are sized independently via `--sidebar-width-left` and `--sidebar-width-right` (default: `30%` each, range 25–75%). The Appearance panel exposes one slider per side, and values persist in localStorage. A `clamp(260px, …, 75vw)` wrapper keeps narrow viewports usable. Pinning both sides at 50% produces an equal split-screen layout (main content collapses to zero).
 
 ### Pinning
 

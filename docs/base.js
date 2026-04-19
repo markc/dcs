@@ -44,7 +44,7 @@ const Base = {
     // Color scheme
     setScheme(scheme) {
         const html = document.documentElement;
-        ['crimson', 'stone', 'ocean', 'forest', 'sunset'].forEach(s => html.classList.remove('scheme-' + s));
+        ['crimson', 'stone', 'ocean', 'forest', 'sunset', 'mono'].forEach(s => html.classList.remove('scheme-' + s));
         if (scheme && scheme !== 'default') html.classList.add('scheme-' + scheme);
         this.state({ scheme: scheme || 'default' });
         document.querySelectorAll('[data-scheme]').forEach(el =>
@@ -63,22 +63,18 @@ const Base = {
         setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 300); }, ms);
     },
 
-    // Sidebar: toggle open/close
+    // Sidebar: toggle open/close (each side is autonomous)
     toggleSidebar(side) {
         const sb = document.querySelector(`.sidebar-${side}`);
         if (!sb) return;
         const opening = !sb.classList.contains('open');
-        // Close all non-pinned sidebars first
-        document.querySelectorAll('.sidebar.open:not(.pinned)').forEach(s => s.classList.remove('open'));
         if (opening) {
             sb.classList.add('open');
-            document.body.classList.add('sidebar-open');
             this.state({ [side + 'Open']: true });
         } else {
-            // Also unpin if pinned
+            // Close unpins (otherwise restore would re-open on next load)
             sb.classList.remove('open', 'pinned');
             document.body.classList.remove(side + '-pinned');
-            if (!document.querySelector('.sidebar.open')) document.body.classList.remove('sidebar-open');
             this.state({ [side + 'Open']: false, [side + 'Pinned']: false });
         }
     },
@@ -126,14 +122,15 @@ const Base = {
         );
     },
 
-    // Sidebar width
-    setSidebarWidth(px) {
-        document.documentElement.style.setProperty('--sidebar-width', px + 'px');
-        this.state({ sidebarWidth: px });
-        const label = document.getElementById('sidebar-width-value');
-        if (label) label.textContent = px;
-        const slider = document.querySelector('.sidebar-width-slider');
-        if (slider && parseInt(slider.value) !== px) slider.value = px;
+    // Sidebar width (side = 'left' | 'right', pct = 25..75)
+    setSidebarWidth(side, pct) {
+        document.documentElement.style.setProperty(`--sidebar-width-${side}`, pct + '%');
+        const key = side === 'left' ? 'sidebarWidthLeft' : 'sidebarWidthRight';
+        this.state({ [key]: pct });
+        const label = document.getElementById(`sidebar-width-${side}-value`);
+        if (label) label.textContent = pct;
+        const slider = document.querySelector(`.sidebar-width-slider[data-side="${side}"]`);
+        if (slider && parseInt(slider.value) !== pct) slider.value = pct;
     },
 
     // Panel carousel: navigate to panel index
@@ -168,7 +165,6 @@ const Base = {
         sb.classList.toggle('pinned', pinning);
         sb.classList.toggle('open', pinning);
         document.body.classList.toggle(side + '-pinned', pinning);
-        if (!pinning && !document.querySelector('.sidebar.open')) document.body.classList.remove('sidebar-open');
         this.state({ [side + 'Pinned']: pinning, [side + 'Open']: pinning });
         // Update pin icon
         const icon = sb.querySelector('.pin-toggle [data-lucide], .pin-toggle svg');
@@ -180,20 +176,14 @@ const Base = {
         }
     },
 
-    // Close all non-pinned sidebars
-    closeSidebars() {
-        document.querySelectorAll('.sidebar.open:not(.pinned)').forEach(s => s.classList.remove('open'));
-        if (!document.querySelector('.sidebar.pinned.open')) document.body.classList.remove('sidebar-open');
-        this.state({ leftOpen: false, rightOpen: false });
-    },
-
     // Restore state on page load
     restore() {
         const s = this.state();
         const desktop = window.innerWidth >= 1280;
 
-        // Restore sidebar width
-        if (s.sidebarWidth) this.setSidebarWidth(s.sidebarWidth);
+        // Restore sidebar widths
+        if (s.sidebarWidthLeft) this.setSidebarWidth('left', s.sidebarWidthLeft);
+        if (s.sidebarWidthRight) this.setSidebarWidth('right', s.sidebarWidthRight);
 
         // Restore carousel transition mode
         const mode = s.carousel || 'slide';
@@ -218,7 +208,6 @@ const Base = {
             sb.classList.toggle('pinned', pinned);
             sb.classList.toggle('open', open);
             document.body.classList.toggle(side + '-pinned', pinned);
-            if (open) document.body.classList.add('sidebar-open');
             // Set correct pin icon
             const icon = sb.querySelector('.pin-toggle [data-lucide], .pin-toggle svg');
             if (icon && pinned) icon.setAttribute('data-lucide', 'pin-off');
@@ -301,9 +290,6 @@ const Base = {
                 return;
             }
 
-            // Overlay click
-            if (t.closest('.overlay')) { this.closeSidebars(); return; }
-
             // Tree toggle (expand/collapse)
             const treeToggle = t.closest('.tree-toggle');
             if (treeToggle) {
@@ -352,19 +338,12 @@ const Base = {
             if (!t.closest('.dropdown')) {
                 document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
             }
-
-            // Close non-pinned sidebars on outside click
-            if (!t.closest('.sidebar') && !t.closest('.menu-toggle')) {
-                document.querySelectorAll('.sidebar.open:not(.pinned)').forEach(sb => sb.classList.remove('open'));
-                if (!document.querySelector('.sidebar.pinned.open')) document.body.classList.remove('sidebar-open');
-            }
         });
 
-        // Escape key closes menus
+        // Escape key closes dropdowns (sidebars are hamburger-only)
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 document.querySelectorAll('.dropdown.open').forEach(d => d.classList.remove('open'));
-                this.closeSidebars();
             }
         });
 
@@ -383,18 +362,19 @@ const Base = {
                 document.querySelectorAll('.sidebar.open').forEach(sb => {
                     sb.classList.remove('open', 'pinned');
                 });
-                document.body.classList.remove('left-pinned', 'right-pinned', 'sidebar-open');
+                document.body.classList.remove('left-pinned', 'right-pinned');
             } else {
                 // Viewport went to desktop - restore pinned state
                 this.restore();
             }
         });
 
-        // Sidebar width slider
-        const slider = document.querySelector('.sidebar-width-slider');
-        if (slider) {
-            slider.addEventListener('input', e => this.setSidebarWidth(parseInt(e.target.value)));
-        }
+        // Sidebar width sliders (independent left/right, 25-75%)
+        document.querySelectorAll('.sidebar-width-slider').forEach(slider => {
+            slider.addEventListener('input', e =>
+                this.setSidebarWidth(e.target.dataset.side, parseInt(e.target.value))
+            );
+        });
 
         // Scroll detection: seamless topnav/sidebar header effect
         const onScroll = () => document.body.classList.toggle('scrolled', window.scrollY > 0);

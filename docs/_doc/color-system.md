@@ -18,9 +18,9 @@ OKLCH fixes this with three independent axes:
 color: oklch(55% 0.12 220);  /* L=55%, C=0.12, H=220 (blue) */
 ```
 
-## The 5 Schemes
+## The 6 Schemes
 
-Each scheme changes **only the hue**. Lightness and chroma ratios stay consistent:
+Each scheme changes **only the hue**. Lightness and chroma ratios stay consistent. Mono is the exception: it sets chroma to 0 so hue is irrelevant, producing pure grayscale.
 
 | Scheme | Hue | Character |
 |--------|-----|-----------|
@@ -29,6 +29,7 @@ Each scheme changes **only the hue**. Lightness and chroma ratios stay consisten
 | **Stone** | 60 | Warm neutral, minimal |
 | **Forest** | 150 | Natural green, calming |
 | **Sunset** | 45 | Warm orange-amber |
+| **Mono** | — | Pure grayscale (C=0); status colors retained for usability |
 
 ## Light and Dark Modes
 
@@ -80,6 +81,7 @@ Each scheme defines both light and dark variants. The toggle works by swapping a
 3. Replace the hue value throughout
 4. Add the scheme name to `Base.setScheme()` cleanup list
 5. Add a selector button to the Appearance panel
+6. Add the scheme name to `Base.setScheme()`'s cleanup list in `base.js`
 
 Example — a purple scheme (H=290):
 

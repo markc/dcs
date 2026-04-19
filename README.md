@@ -1,33 +1,31 @@
-# DCS - Dual Carousel Sidebar
+# DCS — Dual Carousel Sidebars
 
-A modular CSS/JS design system with dual sidebars, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+A modular CSS/JS design system: dual off-canvas sidebars with a carousel of panels inside each, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
 
 **Live demo:** [dcs.spa](https://dcs.spa)
 
 ## Quick Start
 
 ```bash
-# Clone
-git clone https://github.com/markc/dcs.git
-cd dcs
-
-# Serve the demo
-php -S localhost:8000 -t docs
-# or
-npx serve docs
+git clone https://github.com/markc/dcs.spa.git
+cd dcs.spa
+php -S localhost:8000 -t docs     # or: npx serve docs
 ```
 
-Open `http://localhost:8000` to see the self-documenting showcase (the same page deployed to [dcs.spa](https://dcs.spa)).
+Open `http://localhost:8000` — same page deployed to [dcs.spa](https://dcs.spa).
 
 ## Files
 
-| File | Lines | Purpose |
-|------|-------|---------|
-| `base.css` | 705 | Generic framework (layout, components, utilities) |
-| `base.js` | 245 | App shell JavaScript (theme, sidebars, toast) |
-| `site.css` | ~530 | Marketing theme (OKLCH colors, hero, cards, pricing) |
-| `site.js` | 83 | Marketing enhancements (particles, scroll reveal) |
-| `md.js` | 97 | Markdown renderer (for documentation sites) |
+| File | Purpose |
+|------|---------|
+| `base.css` | Generic framework (layout, components, utilities, animations) |
+| `base.js` | App shell (theme, schemes, sidebars, panel carousel, tree, toast) |
+| `site.css` | Marketing theme (OKLCH colors, hero, cards, pricing, particles) |
+| `site.js` | Marketing enhancements (particles, scroll reveal, year) |
+| `md.js` | Markdown renderer (documentation sites) |
+| `themes/stone.css` | Example color-only theme (no marketing components) |
+
+Real files live in `docs/` (the GitHub Pages source). Root symlinks make them convenient to reference from sibling projects.
 
 ## Architecture
 
@@ -38,32 +36,31 @@ site.css  ← YOUR colors + marketing components (customize this)
 site.js   ← YOUR JavaScript enhancements (optional)
 ```
 
-**base.css** defines structure with CSS cascade layers (`reset`, `tokens`, `base`, `components`, `utilities`, `animations`) but zero colors. All colors come from CSS custom properties defined in **site.css**.
+`base.css` uses CSS cascade layers (`reset`, `tokens`, `base`, `components`, `utilities`, `animations`) and defines zero colors. All colors come from CSS custom properties defined in `site.css` (or a color-only theme file like `themes/stone.css`).
 
 ## Color Schemes
 
-5 OKLCH color schemes, each with light + dark mode:
+Six OKLCH schemes, each with light + dark variants. For the five colored schemes, only the hue changes; lightness/chroma ratios stay consistent. Mono sets chroma to 0 for pure grayscale (status colors stay colored so success/danger/warning remain legible).
 
-| Scheme | Hue | Character | Best For |
-|--------|-----|-----------|----------|
-| **Ocean** | 220 | Professional cyan-blue | Default, corporate |
-| **Crimson** | 25 | Bold red | High energy, alerts |
-| **Stone** | 60 | Warm neutral | Documentation, minimal |
-| **Forest** | 150 | Natural green | Environmental, calm |
-| **Sunset** | 45 | Warm amber | Inviting, creative |
+| Scheme | Hue | Character |
+|--------|-----|-----------|
+| **Ocean** | 220 | Cyan-blue, professional (default) |
+| **Crimson** | 25 | Bold red, high energy |
+| **Stone** | 60 | Warm neutral, minimal |
+| **Forest** | 150 | Natural green, calming |
+| **Sunset** | 45 | Warm amber |
+| **Mono** | — | Black, gray, white (C=0) |
 
-Switch schemes live via the right sidebar, or programmatically:
+Switch live via the Appearance panel (right sidebar) or programmatically:
 
 ```javascript
-Base.setScheme('forest');  // ocean, crimson, stone, forest, sunset
-Base.toggleTheme();        // dark ↔ light
+Base.setScheme('forest');   // ocean, crimson, stone, forest, sunset, mono
+Base.toggleTheme();         // dark ↔ light
 ```
 
 ## Usage
 
 ### 1. Marketing / Brochure Site
-
-Copy `base.css`, `base.js`, `site.css`, `site.js` and a background image. Edit `site.css` to change the default color scheme hue.
 
 ```html
 <link rel="stylesheet" href="base.css">
@@ -72,32 +69,37 @@ Copy `base.css`, `base.js`, `site.css`, `site.js` and a background image. Edit `
 <script src="site.js"></script>
 ```
 
-### 2. Documentation Site
+Copy all four files plus a hero background image. Edit `site.css` to change the default hue.
 
-Use `base.css` + `base.js` with a minimal `site.css` (colors only, no marketing). Add `md.js` for markdown rendering.
+### 2. Documentation Site
 
 ```html
 <link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="themes/stone.css">
 <script src="base.js"></script>
 <script src="md.js"></script>
 ```
 
+Use a color-only theme instead of `site.css`. `md.js` exposes `md()` (string → HTML) and `loadDoc()` (fetch + render); add `data-md-auto` to a container to opt in to automatic loading.
+
 ### 3. Laravel + React (Inertia v2)
 
-Import the OKLCH color tokens into your Tailwind v4 `@theme` block. Use React context for theme state instead of `base.js`.
+Import the OKLCH color tokens into your Tailwind v4 `@theme` block and use React context for theme state instead of `base.js`. Color math stays identical.
 
 ## Components
 
 ### App Shell
-- Fixed topnav with glassmorphism
-- Dual sidebars (left: navigation, right: settings)
-- Pinnable on desktop (1280px+)
-- Collapsible sidebar groups
+- Fixed glass topnav, dual off-canvas sidebars (left + right)
+- **Autonomous sidebars** — each side toggles independently; opening one does not close the other
+- Pinnable on desktop (1280px+); pinned sidebars reserve space from main content
+- **Panel carousel** inside each sidebar — slide or fade transitions, dots + chevron nav
+- **Appearance panel** (built in) — theme toggle, carousel-mode toggle, sidebar width sliders, scheme dots
+- **Tree widget** — hierarchical nav (file browsers, doc TOCs) with collapsible branches and persisted expand state
+- **Independent sidebar widths** — `--sidebar-width-left` / `--sidebar-width-right`, 25–75% via sliders, clamped for small viewports
 
 ### Cards
 - Mobile: edge-to-edge (no radius, no side borders)
-- Desktop: rounded corners, shadows, hover lift
+- Desktop: rounded, shadowed, optional hover lift
 - Size variants: `.card-sm`, `.card-md`, `.card-lg`
 
 ### Buttons
@@ -105,24 +107,23 @@ Import the OKLCH color tokens into your Tailwind v4 `@theme` block. Use React co
 - `.btn-success`, `.btn-danger`, `.btn-warning`
 - `.btn-sm`, `.btn-lg`
 
-### Marketing
-- Hero section (100vh with background overlay)
+### Marketing (site.css)
+- Hero section (100vh with background image)
 - Service cards with glass morphism
 - Pricing tables
 - CTA buttons (`.cta-btn.primary`, `.cta-btn.secondary`)
-- Floating particles
-- Scroll reveal animations
+- Floating particles, scroll reveal animations
 
 ### Content
-- `.prose` class for markdown/article rendering
+- `.prose` for markdown/article rendering
 - Forms with focus rings
-- Dropdowns with animation
+- Dropdowns
 - Toast notifications
-- Data tables, admin tables
+- Data tables
 
 ## CSS Variable Contract
 
-Your `site.css` must define these variables for `base.css` to work:
+Your theme file (`site.css` or a color-only alternative) must define:
 
 ```css
 --bg-primary, --bg-secondary, --bg-tertiary
@@ -133,6 +134,15 @@ Your `site.css` must define these variables for `base.css` to work:
 --glass, --glass-border
 ```
 
+## Further Reading
+
+In-tree docs (served alongside the showcase):
+
+- [`docs/_doc/architecture.md`](docs/_doc/architecture.md)
+- [`docs/_doc/color-system.md`](docs/_doc/color-system.md)
+- [`docs/_doc/components.md`](docs/_doc/components.md)
+- [`docs/_doc/usage-patterns.md`](docs/_doc/usage-patterns.md)
+
 ## Built With DCS
 
 - [dcs.spa](https://dcs.spa) — Self-documenting showcase
@@ -140,10 +150,6 @@ Your `site.css` must define these variables for `base.css` to work:
 - [renta.net](https://renta.net) — Managed Linux hosting
 - [SPE](https://github.com/markc/spe) — PHP 8.5 tutorial documentation
 
-## Why "Dual Carousel Sidebar"?
-
-The distinctive UI signature of DCS is the dual left/right sidebar pattern: left for navigation, right for theme/settings. On desktop they can be pinned; on mobile they slide in as off-canvas panels. The system includes much more (OKLCH colors, responsive layout, marketing components, glassmorphism), but the dual sidebar app shell is what makes a DCS site instantly recognizable.
-
 ## License
 
-MIT License - Copyright (C) 2015-2026 Mark Constable <mc@netserva.org>
+MIT License — Copyright (C) 2015-2026 Mark Constable &lt;mc@netserva.org&gt;

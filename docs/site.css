@@ -315,6 +315,44 @@
         --glass-border: oklch(30% 0.035 45 / 0.5);
         --nav-scrolled-bg: oklch(12% 0.02 45 / 0.9);
     }
+
+    /* Mono (C=0 pure grayscale; status colors inherited from :root defaults) */
+    .scheme-mono:not(.dark) {
+        --bg-primary:   oklch(98% 0 0);
+        --bg-secondary: oklch(96% 0 0);
+        --bg-tertiary:  oklch(92% 0 0);
+        --fg-primary:   oklch(20% 0 0);
+        --fg-secondary: oklch(40% 0 0);
+        --fg-muted:     oklch(55% 0 0);
+        --accent:       oklch(25% 0 0);
+        --accent-hover: oklch(35% 0 0);
+        --accent-fg:    oklch(98% 0 0);
+        --accent-subtle:oklch(90% 0 0);
+        --accent-glow:  oklch(25% 0 0 / 0.2);
+        --border:       oklch(85% 0 0);
+        --border-muted: oklch(90% 0 0);
+        --glass:        oklch(98% 0 0);
+        --glass-border: oklch(85% 0 0 / 0.5);
+        --nav-scrolled-bg: oklch(100% 0 0 / 0.95);
+    }
+    .scheme-mono.dark {
+        --bg-primary:   oklch(10% 0 0);
+        --bg-secondary: oklch(15% 0 0);
+        --bg-tertiary:  oklch(22% 0 0);
+        --fg-primary:   oklch(95% 0 0);
+        --fg-secondary: oklch(75% 0 0);
+        --fg-muted:     oklch(55% 0 0);
+        --accent:       oklch(85% 0 0);
+        --accent-hover: oklch(92% 0 0);
+        --accent-fg:    oklch(12% 0 0);
+        --accent-subtle:oklch(25% 0 0);
+        --accent-glow:  oklch(85% 0 0 / 0.3);
+        --border:       oklch(30% 0 0);
+        --border-muted: oklch(22% 0 0);
+        --glass:        oklch(15% 0 0 / 0.85);
+        --glass-border: oklch(30% 0 0 / 0.5);
+        --nav-scrolled-bg: oklch(10% 0 0 / 0.9);
+    }
 }
 
 /* ============================================

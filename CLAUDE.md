@@ -13,15 +13,18 @@ Project guidance for Claude Code when working with this repository.
 ## File Structure
 
 ```
-dcs/
+dcs.spa/
 ├── docs/                   # Real files (GitHub Pages source at dcs.spa)
 │   ├── index.html          # Self-documenting SPA showcase
-│   ├── base.css            # Generic framework (705 lines)
-│   ├── base.js             # Generic JavaScript (245 lines)
+│   ├── base.css            # Generic framework (~900 lines)
+│   ├── base.js             # Generic JavaScript (~420 lines)
 │   ├── site.css            # Marketing theme with OKLCH colors + components
 │   ├── site.js             # Marketing JavaScript (particles, scroll reveal)
 │   ├── md.js               # Markdown renderer (for documentation sites)
-│   └── Server_Room_Dark.webp # Default background image
+│   ├── _doc/               # In-page doc viewer content (architecture, color-system, components, usage-patterns)
+│   ├── Server_Room_Dark.webp # Default background image
+│   ├── CNAME               # dcs.spa custom domain
+│   └── .nojekyll           # Let Pages serve _doc/ without Jekyll rewrite
 ├── base.css                 → symlink → docs/base.css
 ├── base.js                  → symlink → docs/base.js
 ├── site.css                 → symlink → docs/site.css
@@ -50,10 +53,10 @@ Real files live in `docs/` (deployed to GitHub Pages). Root symlinks provide con
 
 CSS cascade layers: `@layer reset, tokens, base, components, utilities, animations`
 
-- **Tokens:** Typography (6 sizes), spacing (0-8), radius, shadows, transitions, z-index
+- **Tokens:** Typography (6 sizes), spacing (0-8), radius, shadows, transitions, z-index, `--sidebar-width-left`/`--sidebar-width-right` (user-adjustable, 25–75%)
 - **Reset:** Box-sizing, reduced motion, contrast preferences
-- **Base:** Headings, links, code blocks, tables
-- **Components:** Container, cards, buttons, forms, dropdowns, toast, topnav, sidebars, prose
+- **Base:** Headings, links, code blocks, tables, blockquotes
+- **Components:** Container, cards, buttons, forms, dropdowns, toast, topnav (flow element), sidebars, panel carousel (slide/fade), tree widget, prose
 - **Utilities:** Display, flex, grid, spacing, text, glass morphism
 - **Animations:** Toast-in, fade-in, hover-lift
 
@@ -61,17 +64,20 @@ Key design decisions:
 - Color-agnostic: defines NO colors (all from site.css CSS vars)
 - Mobile-first: base styles are single column, enhanced at 768px and 1280px
 - Cards: no radius/border on mobile, full styling on desktop
+- Hamburger buttons are 48×48 for mobile tap targets and remain visible when sidebars are pinned
 
 ### base.js (Generic JavaScript)
 
-Single `Base` object with localStorage state management:
-- Theme toggle (dark/light via `.dark`/`.light` class on `<html>`)
-- Color scheme switching (`.scheme-{name}` class)
-- Sidebar open/close/pin (left and right, pinnable at 1280px+)
-- Toast notifications
-- Event delegation (single click handler)
-- Lucide icon integration
-- Preload class prevents flash of transitions
+Single `Base` object with localStorage state management. Public API:
+- `state(updates)` — read/write persistent JSON state
+- `toggleTheme()` — dark/light via `.dark`/`.light` class on `<html>`
+- `setScheme(name)` — apply `.scheme-{name}` class
+- `toggleSidebar(side)` / `pinSidebar(side)` — open/close (pin at 1280px+)
+- `setPanel(side, index)` — navigate sidebar panel carousel
+- `toast(msg, type, ms)` — notifications
+- `restore()` — rehydrate UI on load, remove `preload` class
+
+All clicks use a single delegated listener; Lucide icons render after restore.
 
 ### site.css (Theme Layer)
 
@@ -90,7 +96,7 @@ All colors use `oklch(lightness% chroma hue)`:
 - Toggle override via `html.dark` / `html.light` classes
 - System preference via `@media (prefers-color-scheme: dark)`
 
-5 schemes: Ocean (H=220, default), Crimson (H=25), Stone (H=60), Forest (H=150), Sunset (H=45)
+6 schemes: Ocean (H=220, default), Crimson (H=25), Stone (H=60), Forest (H=150), Sunset (H=45), Mono (C=0, pure grayscale with colored status)
 
 ### site.js (Optional Marketing)
 
@@ -98,7 +104,23 @@ Particle effects, scroll reveal animations, dynamic footer year.
 
 ### md.js (Optional Documentation)
 
-Lightweight markdown-to-HTML renderer for documentation sites. Supports headings, lists, code blocks, tables, links, images, emphasis.
+Lightweight markdown-to-HTML renderer for documentation sites. Exposes `md()` (string → HTML) and `loadDoc()` (fetch + render `.md`). Add `data-md-auto` to a container to opt in to automatic loading. Supports headings, lists, code blocks, tables, links, images, emphasis.
+
+### Sidebar Panel Carousel
+
+Each sidebar holds a horizontal carousel of panels (e.g. Navigation, Appearance, Tree/Docs). Two modes:
+- **Slide** — panels translate horizontally (default)
+- **Fade** — panels cross-fade via opacity + grid stacking
+
+Mode switching suppresses transitions briefly to avoid flicker. Navigate via chevrons, dots, or `Base.setPanel(side, index)`.
+
+### Appearance Panel
+
+Built-in right-sidebar panel exposing theme toggle, carousel mode toggle, sidebar width slider, and color-scheme dots. State persists via `base-state` in localStorage.
+
+### Tree Widget
+
+Hierarchical navigation component (`.tree` → `.tree-branch`/`.tree-toggle`/`.tree-item`). Depth via `--tree-depth` CSS var; collapse animates `grid-template-rows`. Used by the left-sidebar doc viewer that renders files from `docs/_doc/`.
 
 ## Usage Patterns
 
@@ -143,7 +165,6 @@ body
 │   ├── section.content-section (solid bg, cards)
 │   ├── section.bg-image-section (banner/divider)
 │   └── footer.footer-main
-├── div.overlay
 ├── script base.js
 └── script site.js
 ```
@@ -175,10 +196,12 @@ site.css MUST define these variables for base.css to work:
 ## Using DCS in Other Projects
 
 When working in any project that uses DCS:
-1. Read `~/.gh/dcs/CLAUDE.md` (this file) for the canonical pattern
-2. Copy files from `~/.gh/dcs/docs/` (the real files, not root symlinks)
+1. Read `~/.gh/dcs.spa/CLAUDE.md` (this file) for the canonical pattern
+2. Copy files from `~/.gh/dcs.spa/docs/` (the real files, not root symlinks)
 3. Customize `site.css` for project-specific colors and branding
 4. Never modify `base.css` or `base.js` — they are framework files
+
+For deeper reference, `docs/_doc/` contains the in-tree docs: `architecture.md`, `color-system.md`, `components.md`, `usage-patterns.md`.
 
 For Laravel + React projects, adapt the OKLCH color tokens into Tailwind v4 `@theme` blocks and use React context for theme state.
 

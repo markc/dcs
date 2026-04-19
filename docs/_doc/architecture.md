@@ -45,7 +45,6 @@ body
 │   ├── section.content-section (solid bg, cards)
 │   ├── section.bg-image-section (banner/divider)
 │   └── footer.footer-main
-├── div.overlay
 ├── script base.js
 └── script site.js
 ```
