@@ -535,7 +535,7 @@
         cursor: pointer;
         transition: background var(--transition-fast), color var(--transition-fast);
     }
-    .toggle-btn.active { color: var(--accent); background: var(--accent-subtle); }
+    .toggle-btn.active { color: var(--accent-fg); background: var(--accent); }
     .toggle-btn:hover:not(.active) { background: var(--bg-tertiary); }
 
     /* Sidebar width controls (two numeric spinners, side-by-side) */

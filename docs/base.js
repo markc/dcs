@@ -132,7 +132,11 @@ const Base = {
         if (input && parseInt(input.value) !== pct) input.value = pct;
     },
 
-    // Panel carousel: navigate to panel index
+    // Panel carousel: navigate to panel index.
+    // When the chevron wraps (last→first or first→last), we keep sliding in
+    // the chevron's direction by briefly offsetting the destination panel to
+    // the far side of the track, sliding the track past the edge, then
+    // snapping both back to the canonical position without animation.
     setPanel(side, index) {
         const sb = document.querySelector(`.sidebar-${side}`);
         if (!sb) return;
@@ -141,19 +145,49 @@ const Base = {
         const panels = track.querySelectorAll('.panel');
         const count = panels.length;
         if (count === 0) return;
-        // Wrap around
-        index = ((index % count) + count) % count;
+
+        // If a previous wrap is mid-cleanup, cancel it and reset the dest panel
+        if (track._wrapCleanup) {
+            clearTimeout(track._wrapCleanup.timer);
+            track._wrapCleanup.panel.style.transform = '';
+            track._wrapCleanup = null;
+        }
+
+        const normalized = ((index % count) + count) % count;
         const isFade = sb.classList.contains('fade-mode');
+
         if (isFade) {
-            panels.forEach((p, i) => p.classList.toggle('active', i === index));
+            panels.forEach((p, i) => p.classList.toggle('active', i === normalized));
         } else {
-            track.style.transform = `translateX(-${index * 100}%)`;
+            const wrapForward = index >= count;
+            const wrapBack = index < 0;
+            if (wrapForward || wrapBack) {
+                const destPanel = panels[normalized];
+                destPanel.style.transform = wrapForward
+                    ? `translateX(${count * 100}%)`
+                    : `translateX(-${count * 100}%)`;
+                track.offsetHeight; // commit layout before animating
+                track.style.transform = wrapForward
+                    ? `translateX(-${count * 100}%)`
+                    : `translateX(100%)`;
+                const timer = setTimeout(() => {
+                    track.style.transition = 'none';
+                    destPanel.style.transform = '';
+                    track.style.transform = `translateX(-${normalized * 100}%)`;
+                    track.offsetHeight;
+                    track.style.transition = '';
+                    track._wrapCleanup = null;
+                }, 320);
+                track._wrapCleanup = { timer, panel: destPanel };
+            } else {
+                track.style.transform = `translateX(-${normalized * 100}%)`;
+            }
         }
         // Update dots
         sb.querySelectorAll('.carousel-dot').forEach((dot, i) => {
-            dot.classList.toggle('active', i === index);
+            dot.classList.toggle('active', i === normalized);
         });
-        this.state({ [side + 'Panel']: index });
+        this.state({ [side + 'Panel']: normalized });
     },
 
     // Sidebar: pin/unpin (desktop)
