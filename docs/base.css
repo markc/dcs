@@ -381,15 +381,13 @@
     }
 
     /* Narrow sidebar (e.g. 10% width): collapse horizontal groupings to a
-       single column so buttons stay readable and tappable. */
+       single column so controls stay readable and tappable. */
     @container (max-width: 230px) {
         .toggle-group { flex-direction: column; }
         .toggle-btn { flex: 0 0 auto; }
-        .sidebar-width-field { flex-direction: column; align-items: stretch; gap: var(--space-1); }
-        .sidebar-width-spinner { width: 100%; text-align: center; }
-        .sidebar-width-unit { text-align: center; }
-        .scheme-item { padding: var(--space-2) var(--space-3); gap: var(--space-2); }
-        .scheme-name { font-size: var(--text-sm); }
+        .sidebar-width-controls { flex-direction: column; gap: var(--space-2); }
+        .scheme-item { justify-content: center; padding: var(--space-2); }
+        .scheme-name { display: none; }
     }
 
     .sidebar-left { width: var(--sw-l); left: 0; transform: translateX(-100%); }
@@ -540,20 +538,26 @@
     .toggle-btn.active { color: var(--accent); background: var(--accent-subtle); }
     .toggle-btn:hover:not(.active) { background: var(--bg-tertiary); }
 
-    /* Sidebar width control (numeric spinner) */
-    .sidebar-width-control { margin-block-end: var(--space-4); }
+    /* Sidebar width controls (two numeric spinners, side-by-side) */
+    .sidebar-width-controls {
+        display: flex; gap: var(--space-3);
+        margin-block-end: var(--space-4);
+    }
+    .sidebar-width-control { flex: 1; min-width: 0; }
     .sidebar-width-control label {
         display: block; font-size: var(--text-sm); color: var(--fg-secondary);
-        margin-block-end: var(--space-2); font-weight: normal;
-    }
-    .sidebar-width-field {
-        display: flex; align-items: center; gap: var(--space-2);
+        margin-block-end: var(--space-1); font-weight: normal;
     }
     .sidebar-width-spinner {
-        width: 5rem; padding: var(--space-2) var(--space-3);
-        font-variant-numeric: tabular-nums; text-align: end;
+        width: 100%; padding: var(--space-2) var(--space-3);
+        font-variant-numeric: tabular-nums; text-align: center;
+        appearance: textfield;
+        -moz-appearance: textfield;
     }
-    .sidebar-width-unit { color: var(--fg-muted); font-size: var(--text-sm); }
+    .sidebar-width-spinner::-webkit-outer-spin-button,
+    .sidebar-width-spinner::-webkit-inner-spin-button {
+        -webkit-appearance: none; appearance: none; margin: 0;
+    }
 
     /* Scheme list (colored dots) */
     .scheme-list { display: flex; flex-direction: column; gap: var(--space-1); }
