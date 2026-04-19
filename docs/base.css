@@ -547,12 +547,10 @@
     .sidebar-width-control label {
         display: block; font-size: var(--text-sm); color: var(--fg-secondary);
         margin-block-end: var(--space-1); font-weight: normal;
-        text-align: center;
+        text-align: center; white-space: nowrap;
     }
-    .sidebar-width-field { position: relative; }
     .sidebar-width-spinner {
-        width: 100%;
-        padding: var(--space-2) calc(var(--space-3) + 0.9em) var(--space-2) var(--space-3);
+        width: 100%; padding: var(--space-2) var(--space-3);
         font-variant-numeric: tabular-nums; text-align: center;
         appearance: textfield;
         -moz-appearance: textfield;
@@ -560,12 +558,6 @@
     .sidebar-width-spinner::-webkit-outer-spin-button,
     .sidebar-width-spinner::-webkit-inner-spin-button {
         -webkit-appearance: none; appearance: none; margin: 0;
-    }
-    .sidebar-width-suffix {
-        position: absolute; top: 50%; right: var(--space-3);
-        transform: translateY(-50%);
-        color: var(--fg-muted); font-size: var(--text-sm);
-        pointer-events: none;
     }
 
     /* Scheme list (colored dots) */
