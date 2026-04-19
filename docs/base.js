@@ -122,15 +122,14 @@ const Base = {
         );
     },
 
-    // Sidebar width (side = 'left' | 'right', pct = 10..100)
+    // Sidebar width (side = 'left' | 'right', pct = 10..100, step 10)
     setSidebarWidth(side, pct) {
+        pct = Math.max(10, Math.min(100, Math.round(pct / 10) * 10));
         document.documentElement.style.setProperty(`--sidebar-width-${side}`, pct + '%');
         const key = side === 'left' ? 'sidebarWidthLeft' : 'sidebarWidthRight';
         this.state({ [key]: pct });
-        const label = document.getElementById(`sidebar-width-${side}-value`);
-        if (label) label.textContent = pct;
-        const slider = document.querySelector(`.sidebar-width-slider[data-side="${side}"]`);
-        if (slider && parseInt(slider.value) !== pct) slider.value = pct;
+        const input = document.querySelector(`.sidebar-width-spinner[data-side="${side}"]`);
+        if (input && parseInt(input.value) !== pct) input.value = pct;
     },
 
     // Panel carousel: navigate to panel index
@@ -369,11 +368,14 @@ const Base = {
             }
         });
 
-        // Sidebar width sliders (independent left/right, 10-100%)
-        document.querySelectorAll('.sidebar-width-slider').forEach(slider => {
-            slider.addEventListener('input', e =>
-                this.setSidebarWidth(e.target.dataset.side, parseInt(e.target.value))
-            );
+        // Sidebar width spinners (independent left/right, 10-100%, step 10)
+        document.querySelectorAll('.sidebar-width-spinner').forEach(input => {
+            const apply = e => {
+                const v = parseInt(e.target.value);
+                if (Number.isFinite(v)) this.setSidebarWidth(e.target.dataset.side, v);
+            };
+            input.addEventListener('change', apply);
+            input.addEventListener('blur', apply);
         });
 
         // Scroll detection: seamless topnav/sidebar header effect

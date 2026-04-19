@@ -160,12 +160,18 @@
                             <button class="toggle-btn" data-carousel="fade">Fade</button>
                         </div>
                         <div class="sidebar-width-control">
-                            <label>Left sidebar: <span id="sidebar-width-left-value">20</span>%</label>
-                            <input type="range" class="sidebar-width-slider" data-side="left" min="10" max="100" value="20" step="5">
+                            <label for="sidebar-width-left-input">Left sidebar width</label>
+                            <div class="sidebar-width-field">
+                                <input id="sidebar-width-left-input" type="number" class="sidebar-width-spinner" data-side="left" min="10" max="100" value="20" step="10">
+                                <span class="sidebar-width-unit">%</span>
+                            </div>
                         </div>
                         <div class="sidebar-width-control">
-                            <label>Right sidebar: <span id="sidebar-width-right-value">20</span>%</label>
-                            <input type="range" class="sidebar-width-slider" data-side="right" min="10" max="100" value="20" step="5">
+                            <label for="sidebar-width-right-input">Right sidebar width</label>
+                            <div class="sidebar-width-field">
+                                <input id="sidebar-width-right-input" type="number" class="sidebar-width-spinner" data-side="right" min="10" max="100" value="20" step="10">
+                                <span class="sidebar-width-unit">%</span>
+                            </div>
                         </div>
                         <div class="scheme-list">
                             <button class="scheme-item" data-scheme="default">
