@@ -1,8 +1,26 @@
-# DCS — Dual Carousel Sidebars
+<div align="center">
 
-A modular CSS/JS design system: dual off-canvas sidebars with a carousel of panels inside each, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+<img src="docs/dcs-wordmark.svg" alt="Dual Carousel Sidebars" width="720">
+
+**A modular CSS/JS design system: dual off-canvas sidebars with a carousel of panels inside each, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Zero dependencies](https://img.shields.io/badge/deps-0-1eca85.svg)](#)
+[![No build step](https://img.shields.io/badge/build-none-3a8fe8.svg)](#)
+[![OKLCH](https://img.shields.io/badge/color-OKLCH-f5c040.svg)](#)
+[![Release](https://img.shields.io/github/v/release/markc/dcs.spa?color=ff4545)](https://github.com/markc/dcs.spa/releases)
+
+**✨ 100% proudly vibe coded by the one and only Claude Code ✨**
+
+<img src="docs/Screenshot.webp" alt="DCS showcase screenshot" width="900">
+
+**[laradcs](https://github.com/markc/laradcs)** — The Dual Carousel Sidebar starter kit for Laravel + Inertia + React.
 
 **Live demo:** [dcs.spa](https://dcs.spa)
+
+</div>
+
+---
 
 ## Quick Start
 
