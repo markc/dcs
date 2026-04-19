@@ -122,7 +122,7 @@ const Base = {
         );
     },
 
-    // Sidebar width (side = 'left' | 'right', pct = 25..75)
+    // Sidebar width (side = 'left' | 'right', pct = 10..100)
     setSidebarWidth(side, pct) {
         document.documentElement.style.setProperty(`--sidebar-width-${side}`, pct + '%');
         const key = side === 'left' ? 'sidebarWidthLeft' : 'sidebarWidthRight';
@@ -369,7 +369,7 @@ const Base = {
             }
         });
 
-        // Sidebar width sliders (independent left/right, 25-75%)
+        // Sidebar width sliders (independent left/right, 10-100%)
         document.querySelectorAll('.sidebar-width-slider').forEach(slider => {
             slider.addEventListener('input', e =>
                 this.setSidebarWidth(e.target.dataset.side, parseInt(e.target.value))

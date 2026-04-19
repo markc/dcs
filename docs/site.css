@@ -459,9 +459,15 @@
         content: "";
         position: absolute;
         inset: 0;
-        background: rgb(0 0 0 / 0.6);
+        background: var(--hero-overlay, rgb(0 0 0 / 0.6));
         z-index: 0;
     }
+
+    html.light {
+        --hero-overlay: rgb(0 0 0 / 0.3);
+    }
+
+    html.light .hero-bg p { color: #fff; }
 
     .hero-bg > * {
         position: relative;
