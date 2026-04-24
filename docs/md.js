@@ -5,6 +5,9 @@ function md(s) {
     const b = [], L = '\x02', R = '\x03';
     const esc = t => t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 
+    // Strip leading YAML frontmatter (Jekyll/Hugo/Pandoc convention)
+    s = s.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, '');
+
     // Protect code blocks
     s = s.replace(/```(\w*)\r?\n([\s\S]*?)\r?\n```/g, (_, lang, code) => {
         const cls = lang ? ` class="lang-${lang}"` : '';
