@@ -1,6 +1,6 @@
 /* Base CSS Framework - Mobile-First App Shell
  * Modern, generic design system - override colors with site.css
- * Copyright (C) 2015-2026 Mark Constable <mc@netserva.org> (MIT License)
+ * Copyright © 2026 Mark Constable <mc@dcs.spa> (MIT License)
  */
 
 @layer reset, tokens, base, components, utilities, animations;

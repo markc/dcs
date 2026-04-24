@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: DCS Layout
-description: Spatial specification for the DCS (Dual Carousel Sidebar) reference implementation — HTML skeleton, positioning model, z-index scale, sidebar anatomy, section types, grid system, and pin-push geometry. Complements DESIGN.md (visual tokens) and BEHAVIOR.md (interaction) with the "how things are arranged" layer. Authoritative source is docs/index.html + docs/base.css.
+description: Spatial specification for the DCS (Dual Carousel Sidebars) reference implementation — HTML skeleton, positioning model, z-index scale, sidebar anatomy, section types, grid system, and pin-push geometry. Complements DESIGN.md (visual tokens) and BEHAVIOR.md (interaction) with the "how things are arranged" layer. Authoritative source is docs/index.html + docs/base.css.
 layers:
   hero-overlay: 0
   particles: 0

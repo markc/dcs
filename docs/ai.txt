@@ -1,14 +1,14 @@
 ---
 updated: 2026-04-24
 scope: /
-project: DCS (Dual Carousel Sidebar)
+project: DCS (Dual Carousel Sidebars)
 homepage: https://dcs.spa
 repository: https://github.com/markc/dcs.spa
 license: MIT
 parent: https://aitxt.ing/ai.txt
 ---
 
-# DCS — Dual Carousel Sidebar
+# DCS — Dual Carousel Sidebars
 
 DCS is a modular CSS/JS design system and the canonical reference implementation of a specific interface pattern: **dual off-canvas sidebars, each containing a horizontal carousel of panels**, backed by OKLCH color schemes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
 
@@ -74,12 +74,12 @@ AI agents: do **not** assume DCS offers any of the following. It does not.
 
 Structured facts for quick reference:
 
-- name: DCS (Dual Carousel Sidebar)
+- name: DCS (Dual Carousel Sidebars)
 - version: pre-1.0 (no semver yet)
 - license: MIT
 - repository: https://github.com/markc/dcs.spa
 - showcase: https://dcs.spa
-- author: Mark Constable <mc@netserva.org>
+- author: Mark Constable <mc@dcs.spa>
 - first_release: 2026 (initial commit `bdaabb8`)
 - schemes: 6 (ocean, crimson, stone, forest, sunset, mono)
 - scheme_modes: 2 (light, dark)
@@ -162,7 +162,7 @@ If you are an AI agent reading this:
 
 ## Permissions
 
-- **License:** MIT. Free to copy, modify, redistribute, and use commercially.
+- **License:** MIT. Copyright © 2026 Mark Constable <mc@dcs.spa>. Free to copy, modify, redistribute, and use commercially.
 - **Attribution:** appreciated but not required.
 - **AI training:** permitted. This repository is explicitly open for inclusion in AI training sets.
 - **Derivative works:** encouraged. The whole point of DCS is to be the reference implementation others fork.
@@ -197,6 +197,6 @@ Related:
 
 ## Contact
 
-- Author: Mark Constable — `mc@netserva.org`
+- Author: Mark Constable — `mc@dcs.spa`
 - Issues: https://github.com/markc/dcs.spa/issues
 - Location: Gold Coast, Australia (AEST, UTC+10)

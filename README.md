@@ -14,7 +14,7 @@
 
 <img src="docs/Screenshot.webp" alt="DCS showcase screenshot" width="900">
 
-**[laradcs](https://github.com/markc/laradcs)** — The Dual Carousel Sidebar starter kit for Laravel + Inertia + React.
+**[laradcs](https://github.com/markc/laradcs)** — The Dual Carousel Sidebars starter kit for Laravel + Inertia + React.
 
 **Live demo:** [dcs.spa](https://dcs.spa)
 
@@ -169,4 +169,4 @@ In-tree docs (served alongside the showcase):
 
 ## License
 
-MIT License — Copyright (C) 2015-2026 Mark Constable &lt;mc@netserva.org&gt;
+MIT License — Copyright © 2026 Mark Constable &lt;mc@dcs.spa&gt;

@@ -1,5 +1,5 @@
 /* Base JS - Mobile-First App Shell
- * Copyright (C) 2015-2026 Mark Constable <mc@netserva.org> (MIT License)
+ * Copyright © 2026 Mark Constable <mc@dcs.spa> (MIT License)
  */
 if (typeof Base === 'undefined') {
 const Base = {

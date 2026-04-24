@@ -1,7 +1,7 @@
 ---
 version: alpha
 name: DCS Behavior
-description: Behavioral specification for the DCS (Dual Carousel Sidebar) reference implementation — interaction model, state machines, persistence, motion, responsive rules, and accessibility. Complements DESIGN.md (visual tokens) with the "what happens when" layer. Authoritative source is docs/base.js + docs/site.js; this file documents observable behavior.
+description: Behavioral specification for the DCS (Dual Carousel Sidebars) reference implementation — interaction model, state machines, persistence, motion, responsive rules, and accessibility. Complements DESIGN.md (visual tokens) with the "what happens when" layer. Authoritative source is docs/base.js + docs/site.js; this file documents observable behavior.
 motion:
   duration-fast: 150ms
   duration-base: 200ms

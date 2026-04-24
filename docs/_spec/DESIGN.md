@@ -1,6 +1,6 @@
 ---
 version: alpha
-name: DCS (Dual Carousel Sidebar)
+name: DCS (Dual Carousel Sidebars)
 description: Canonical reference implementation of Mark Constable's preferred web interface pattern — dual off-canvas sidebars with panel carousels, OKLCH-based theming, glass-morphism, and a mobile-first two-layer (base + site) CSS framework with zero dependencies.
 colors:
   bg-primary: "#F5F8FA"

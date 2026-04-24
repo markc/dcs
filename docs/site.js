@@ -2,7 +2,7 @@
  * DCS Site JavaScript
  * Marketing enhancements on top of base.js app shell
  * Particles, scroll reveal, footer year
- * Copyright (C) 2015-2026 Mark Constable <mc@netserva.org> (MIT License)
+ * Copyright © 2026 Mark Constable <mc@dcs.spa> (MIT License)
  */
 
 const Site = {

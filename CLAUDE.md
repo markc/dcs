@@ -4,7 +4,7 @@ Project guidance for Claude Code when working with this repository.
 
 ## Project Overview
 
-**DCS (Dual Carousel Sidebar)** is the canonical reference implementation of Mark's preferred web interface pattern. It is a modular CSS/JS design system featuring dual sidebars, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+**DCS (Dual Carousel Sidebars)** is the canonical reference implementation of Mark's preferred web interface pattern. It is a modular CSS/JS design system featuring dual sidebars, OKLCH color schemes, dark/light modes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
 
 **This repo is the single source of truth.** Every project that uses DCS (plain PHP, static HTML, Laravel+React) should reference `~/.gh/dcs` as the authority. When told "use the DCS interface", read these files and reproduce the pattern.
 
@@ -206,4 +206,4 @@ For Laravel + React projects, adapt the OKLCH color tokens into Tailwind v4 `@th
 
 ## License
 
-MIT License - Copyright (C) 2015-2026 Mark Constable <mc@netserva.org>
+MIT License — Copyright © 2026 Mark Constable <mc@dcs.spa>
