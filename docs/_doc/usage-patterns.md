@@ -1,6 +1,6 @@
 # Usage Patterns
 
-DCS supports three integration modes depending on your project type.
+DCS supports three integration modes depending on your project type — but the first two share the same two stylesheets. The difference is which HTML components you mount.
 
 ## 1. Marketing / Brochure Site
 
@@ -17,18 +17,18 @@ This gives you the hero section, service cards, pricing tables, CTAs, particle e
 
 ## 2. Documentation Site
 
-Minimal setup with markdown rendering:
+Same two stylesheets as a marketing site — swap the marketing `site.js` for `md.js`:
 
 ```html
 <link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="themes/stone.css">
+<link rel="stylesheet" href="site.css">
 <script src="base.js"></script>
 <script src="md.js"></script>
 ```
 
-Use a color-only theme file instead of `site.css`. The `md.js` script provides `md()` for converting markdown to HTML and `loadDoc()` for fetching and rendering `.md` files.
+If your HTML never mounts the hero / service-card / pricing / CTA components, those rules simply do not render — there is no "marketing penalty" at runtime. Pick a scheme via `Base.setScheme('stone')` (or similar) on init, or let users switch it from the Appearance panel.
 
-Add `data-md-auto` to opt in to automatic document loading:
+`md.js` provides `md()` for converting markdown to HTML and `loadDoc()` for fetching and rendering `.md` files. Add `data-md-auto` to opt in to automatic document loading:
 
 ```html
 <div data-md-auto></div>

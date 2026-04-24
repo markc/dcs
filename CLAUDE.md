@@ -31,9 +31,7 @@ dcs.spa/
 ├── site.js                  → symlink → docs/site.js
 ├── md.js                    → symlink → docs/md.js
 ├── Server_Room_Dark.webp    → symlink → docs/Server_Room_Dark.webp
-├── base.txt                # Structure spec for AI site generation
-├── themes/                 # Standalone color-only themes (no marketing)
-│   └── stone.css           # Example: documentation-focused theme
+├── ai.txt                   → symlink → docs/ai.txt
 ├── CLAUDE.md               # This file
 └── README.md               # Project documentation
 ```
@@ -135,10 +133,11 @@ Hierarchical navigation component (`.tree` → `.tree-branch`/`.tree-toggle`/`.t
 ### 2. Documentation Site
 ```html
 <link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="themes/stone.css">  <!-- colors only -->
+<link rel="stylesheet" href="site.css">
 <script src="base.js"></script>
 <script src="md.js"></script>
 ```
+Same two stylesheets as a marketing site — if your HTML never uses the hero / service-card / pricing / CTA components, those rules never render. Pick a scheme via `Base.setScheme('stone')` (or similar) on init.
 
 ### 3. Laravel + React (Inertia)
 Import OKLCH color tokens into Tailwind v4 `@theme` block. Use React context for theme state instead of base.js.

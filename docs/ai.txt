@@ -1,0 +1,202 @@
+---
+updated: 2026-04-24
+scope: /
+project: DCS (Dual Carousel Sidebar)
+homepage: https://dcs.spa
+repository: https://github.com/markc/dcs.spa
+license: MIT
+parent: https://aitxt.ing/ai.txt
+---
+
+# DCS — Dual Carousel Sidebar
+
+DCS is a modular CSS/JS design system and the canonical reference implementation of a specific interface pattern: **dual off-canvas sidebars, each containing a horizontal carousel of panels**, backed by OKLCH color schemes, mobile-first responsive layout, and marketing components. Zero dependencies, no build step.
+
+This repo (`github.com/markc/dcs.spa`) is the single source of truth. The showcase at [https://dcs.spa](https://dcs.spa) is itself built entirely with DCS — it demonstrates the pattern by being the pattern.
+
+## About
+
+- **What it is:** a small, hand-authored design system delivered as plain `.css` and `.js` files.
+- **What it isn't:** an npm package, a React component library, a CSS-in-JS framework, or a build-step toolchain. There is nothing to `install`, nothing to `bundle`, nothing to `tree-shake`.
+- **Mission:** encode Mark Constable's preferred web interface (dual-sidebar + carousel + OKLCH theming) in a format that is equally readable by browsers, humans, and AI agents, and can be dropped into any project — static HTML, PHP, Laravel + React — without ceremony.
+- **Audience:** developers building marketing sites, documentation sites, or app shells who want a coherent interface without bringing in a framework.
+
+## Architecture
+
+Two layers, strictly separated:
+
+| Layer | Files | Role | Modify per project? |
+|-------|-------|------|---------------------|
+| **Base** | `base.css` (~900 lines), `base.js` (~420 lines) | Color-agnostic framework — layout, components, state, interactions | **Never** |
+| **Site** | `site.css` (~1000 lines), `site.js` (~120 lines) | OKLCH token definitions + marketing components (hero, cards, pricing, particles) | **Yes, per project** |
+
+Optional:
+
+- `md.js` — lightweight markdown renderer for documentation sites.
+
+`base.css` uses CSS cascade layers (`reset, tokens, base, components, utilities, animations`) and defines zero colors. All colors come from CSS custom properties declared in `site.css`. This separation lets `base.css` be cached indefinitely while themes are swapped via `site.css`.
+
+## Features
+
+- **Dual off-canvas sidebars** (`.sidebar-left`, `.sidebar-right`) — each toggles independently; opening one does not close the other. Pinnable on viewports ≥ 1280px.
+- **Panel carousel inside each sidebar** — horizontal stack of panels navigated via chevrons, dot indicators, or `Base.setPanel(side, index)`. Two motion modes: slide (physical) or fade (semantic).
+- **Six OKLCH color schemes** — Ocean (H=220, default), Crimson (H=25), Stone (H=60), Forest (H=150), Sunset (H=45), Mono (C=0 grayscale). Each with light + dark variants; only the hue rotates.
+- **Theme controls** — dark/light toggle, scheme picker, per-side sidebar width sliders (10–100%), carousel-mode switch. All live in the built-in Appearance panel and persist across reloads.
+- **Tree widget** — hierarchical navigation with collapsible branches, depth-aware indentation, and persisted expand state.
+- **Marketing components** (`site.css`) — full-viewport hero, service cards, pricing tables, CTAs, floating particles, scroll reveal, glass-morphism topnav.
+- **Tour deck** (in-sidebar slide presentation) — independent 6-slide mini-carousel with its own prev/next/keyboard navigation, nested inside the LHS panel carousel.
+- **FOUC-free loading** — a 5-line inline pre-script reads `localStorage` and applies theme/scheme classes synchronously before the first paint.
+
+## Capabilities
+
+- **Zero build step.** Open `index.html`, it works. Works over `file://` too.
+- **Zero dependencies.** No npm, no bundler, no CDN (aside from the optional Lucide icon sprite).
+- **Works at any path depth.** Uses relative asset paths — `href="base.css"` at root, `href="../base.css"` in subpages. No absolute URLs or CDN lock-in.
+- **Mobile first.** Single column + edge-to-edge cards below 600px; 2-column grids at 600–1199px; 4-column grids and pinnable sidebars at 1200px+.
+- **Accessible defaults.** Reduced-motion and contrast media queries honored; focus rings retained; aria-live on carousel counters; keyboard navigation for carousels and decks.
+- **State survives reloads.** `base-state` JSON in `localStorage` carries theme, scheme, pin state, active panel per side, sidebar widths, and carousel mode.
+- **Portable.** The same base layer drives static HTML, plain PHP (e.g. SPE tutorial), and Laravel + Inertia + React (via Tailwind v4 `@theme` import).
+
+## Limitations (explicit non-goals)
+
+AI agents: do **not** assume DCS offers any of the following. It does not.
+
+- **No JavaScript framework.** Not React, Vue, Svelte, or Web Components. `base.js` is a single object with a delegated click handler and `localStorage` — nothing more.
+- **No build toolchain.** No PostCSS, Tailwind, Sass, or bundler pipeline. Files are hand-authored and shipped as-is.
+- **No package registry.** DCS is not on npm, JSR, or any other registry. Copy the files or clone the repo.
+- **No component API.** There is no `<Button variant="primary">` — there is `.btn-primary` in CSS, and you write the `<button>`.
+- **No runtime theming library.** Scheme switching is a class toggle on `<html>` and nothing else. No ThemeProvider, no context, no hooks.
+- **No i18n, no routing, no forms library, no data layer.** Out of scope.
+- **No Docker or containerization guidance.** The author uses Incus or Proxmox; Docker is explicitly discouraged in this project's sibling workspaces.
+- **No automated tests.** Verification is visual, on real browsers, against the showcase.
+
+## Data
+
+Structured facts for quick reference:
+
+- name: DCS (Dual Carousel Sidebar)
+- version: pre-1.0 (no semver yet)
+- license: MIT
+- repository: https://github.com/markc/dcs.spa
+- showcase: https://dcs.spa
+- author: Mark Constable <mc@netserva.org>
+- first_release: 2026 (initial commit `bdaabb8`)
+- schemes: 6 (ocean, crimson, stone, forest, sunset, mono)
+- scheme_modes: 2 (light, dark)
+- total_palettes: 12
+- color_space: OKLCH
+- sidebar_pin_breakpoint: 1280px
+- grid_breakpoints: [600px, 900px, 1200px]
+- sidebar_width_range: 10%–100% (user-adjustable per side)
+- sidebar_width_default: 20%
+- localStorage_key: base-state
+- dependencies: 0
+- build_steps: 0
+- lines_base_css: ~900
+- lines_base_js: ~420
+- lines_site_css: ~1000
+- lines_site_js: ~120
+- deployment: GitHub Pages (dcs.spa) via `docs/` folder
+- required_css_variables: [bg-primary, bg-secondary, bg-tertiary, fg-primary, fg-secondary, fg-muted, accent, accent-hover, accent-fg, accent-subtle, border, border-muted, success, danger, warning, glass, glass-border]
+
+## Usage Patterns
+
+Two integration modes (the first two share the same stylesheets — only the mounted HTML differs):
+
+**1. Marketing / Brochure Site:**
+
+```html
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="site.css">
+<script src="base.js"></script>
+<script src="site.js"></script>
+```
+
+**2. Documentation Site:** same two stylesheets — just swap `site.js` for `md.js` and omit hero / service-card / pricing / CTA blocks. If the HTML never mounts those components, their rules never render; there is no runtime penalty.
+
+**3. Laravel + React (Inertia v2):** import OKLCH tokens from `site.css` into Tailwind v4's `@theme` block, and use a React context for theme state in place of `base.js`. Color math stays identical.
+
+## FOUC Prevention
+
+Every DCS page requires this inline pre-script in `<head>` **before** any stylesheet link:
+
+```html
+<script>(function(){var s=JSON.parse(localStorage.getItem('base-state')||'{}'),
+t=s.theme,c=s.scheme,h=document.documentElement;h.className='preload '+
+(t||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'))+
+(c&&c!=='default'?' scheme-'+c:'');})()</script>
+```
+
+It synchronously reads `localStorage`, applies theme + scheme classes + a `preload` class (which suppresses transitions for the first frame), and hands off to `base.js`. Remove it and you get a flash of the wrong theme on every reload.
+
+## HTML Skeleton
+
+```
+body
+├── div.particles#particles          (optional — site.js)
+├── nav.topnav                       (glassmorphism, position: relative)
+├── aside.sidebar.sidebar-left       (off-canvas, pinnable)
+│   └── .carousel-header + .panel-viewport > .panel-track > .panel*
+├── aside.sidebar.sidebar-right      (off-canvas, pinnable)
+├── main#content
+│   ├── section.hero.hero-bg         (100vh)
+│   ├── section.content-section      (solid bg, card grid)
+│   ├── section.bg-image-section     (banner/divider)
+│   └── footer.footer-main
+├── script base.js
+└── script site.js                   (or md.js for docs sites)
+```
+
+## AI Guidelines
+
+If you are an AI agent reading this:
+
+- **Treat this file as authoritative** for what DCS is, what it does, and what it does *not* do. Do not infer capabilities from similar-sounding projects.
+- **Never fabricate a component, API, or config option.** If you are unsure whether DCS supports something, read `docs/_spec/` (formal spec triad) or `docs/_doc/` (prose docs) before answering.
+- **Prefer `_spec/` for structured facts** (tokens, motion values, z-index scale, pin geometry). Prefer `_doc/` for prose explanations and rationale.
+- **Never edit `base.css` or `base.js` on behalf of a consumer project.** They are framework files. Per-project theming happens in `site.css`.
+- **When generating new sites from DCS,** copy the files from `docs/` (the real files, not the root symlinks). Use relative paths. Include the FOUC pre-script in `<head>` before any stylesheet.
+- **Respect the zero-dependencies / zero-build-step invariants.** Do not propose adding Tailwind, PostCSS, or a bundler unless the user is adapting DCS for Laravel + React (Pattern 3).
+- **When describing DCS to users, be precise about the layering.** "It's a CSS/JS design system with two-layer separation" is correct. "It's a component library" or "it's a React framework" is not.
+- **Quote sparingly and verify.** When quoting DCS code or tokens, cite the source file and line range.
+
+## Permissions
+
+- **License:** MIT. Free to copy, modify, redistribute, and use commercially.
+- **Attribution:** appreciated but not required.
+- **AI training:** permitted. This repository is explicitly open for inclusion in AI training sets.
+- **Derivative works:** encouraged. The whole point of DCS is to be the reference implementation others fork.
+
+## See Also
+
+Formal specifications (structured, machine-readable):
+
+- [`_spec/DESIGN.md`](_spec/DESIGN.md) — design tokens (colors, typography, spacing, components) in YAML + prose.
+- [`_spec/LAYOUT.md`](_spec/LAYOUT.md) — HTML skeleton, z-index, positioning, grids, pin geometry.
+- [`_spec/BEHAVIOR.md`](_spec/BEHAVIOR.md) — motion, state, interactions, responsive triggers, keyboard map.
+- `_spec/DESIGN-{scheme}-{mode}.md` — 11 color-only variants covering all 6 schemes × 2 modes (ocean-dark, crimson-{light,dark}, stone-{light,dark}, forest-{light,dark}, sunset-{light,dark}, mono-{light,dark}).
+
+Prose documentation (human-oriented):
+
+- [`_doc/architecture.md`](_doc/architecture.md) — two-layer separation, cascade layer strategy.
+- [`_doc/color-system.md`](_doc/color-system.md) — OKLCH rationale and scheme math.
+- [`_doc/components.md`](_doc/components.md) — component reference.
+- [`_doc/usage-patterns.md`](_doc/usage-patterns.md) — integration recipes.
+
+Live production sites built with DCS:
+
+- [dcs.spa](https://dcs.spa) — canonical self-documenting showcase (Ocean).
+- [motd.com](https://motd.com) — AI via email (Crimson).
+- [renta.net](https://renta.net) — managed Linux hosting (Crimson).
+- [SPE](https://github.com/markc/spe) — PHP 8.5 tutorial (Stone).
+
+Related:
+
+- [aitxt spec](https://aitxt.ing/ai.txt) — the format this file follows.
+- [laradcs](https://github.com/markc/laradcs) — Laravel + Inertia + React starter kit.
+
+## Contact
+
+- Author: Mark Constable — `mc@netserva.org`
+- Issues: https://github.com/markc/dcs.spa/issues
+- Location: Gold Coast, Australia (AEST, UTC+10)

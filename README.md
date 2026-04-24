@@ -41,7 +41,6 @@ Open `http://localhost:8000` — same page deployed to [dcs.spa](https://dcs.spa
 | `site.css` | Marketing theme (OKLCH colors, hero, cards, pricing, particles) |
 | `site.js` | Marketing enhancements (particles, scroll reveal, year) |
 | `md.js` | Markdown renderer (documentation sites) |
-| `themes/stone.css` | Example color-only theme (no marketing components) |
 
 Real files live in `docs/` (the GitHub Pages source). Root symlinks make them convenient to reference from sibling projects.
 
@@ -54,7 +53,7 @@ site.css  ← YOUR colors + marketing components (customize this)
 site.js   ← YOUR JavaScript enhancements (optional)
 ```
 
-`base.css` uses CSS cascade layers (`reset`, `tokens`, `base`, `components`, `utilities`, `animations`) and defines zero colors. All colors come from CSS custom properties defined in `site.css` (or a color-only theme file like `themes/stone.css`).
+`base.css` uses CSS cascade layers (`reset`, `tokens`, `base`, `components`, `utilities`, `animations`) and defines zero colors. All colors come from CSS custom properties defined in `site.css`.
 
 ## Color Schemes
 
@@ -93,12 +92,12 @@ Copy all four files plus a hero background image. Edit `site.css` to change the 
 
 ```html
 <link rel="stylesheet" href="base.css">
-<link rel="stylesheet" href="themes/stone.css">
+<link rel="stylesheet" href="site.css">
 <script src="base.js"></script>
 <script src="md.js"></script>
 ```
 
-Use a color-only theme instead of `site.css`. `md.js` exposes `md()` (string → HTML) and `loadDoc()` (fetch + render); add `data-md-auto` to a container to opt in to automatic loading.
+Same two stylesheets as a marketing site &mdash; if your HTML never uses the marketing components (hero, service cards, pricing, CTAs), those rules simply do not render. `md.js` exposes `md()` (string &rarr; HTML) and `loadDoc()` (fetch + render); add `data-md-auto` to a container to opt in to automatic loading. Pick a scheme via `Base.setScheme('stone')` or the Appearance panel.
 
 ### 3. Laravel + React (Inertia v2)
 
@@ -141,7 +140,7 @@ Import the OKLCH color tokens into your Tailwind v4 `@theme` block and use React
 
 ## CSS Variable Contract
 
-Your theme file (`site.css` or a color-only alternative) must define:
+`site.css` must define these tokens (the base framework reads them, defining none of its own):
 
 ```css
 --bg-primary, --bg-secondary, --bg-tertiary
